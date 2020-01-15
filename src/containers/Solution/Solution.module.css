@@ -2,8 +2,13 @@
     text-align: left;
     font-size: medium;
     color: darkblue;
+    padding: 1rem;
+    width: 12%;
+}
+.goback:hover{
+    background: rgb(247, 224, 247);
+    color: indigo;
 }
 a{
     text-decoration: none;
-
 }
