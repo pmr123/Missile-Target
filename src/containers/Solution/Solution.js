@@ -5,6 +5,8 @@ class Solution extends Component{
     render(){
         return(            
             <div>
+                <Link style={} to="/">GetData</Link>
+
                 <p>Solution</p>
                 <ThreeAnim />
             </div>          

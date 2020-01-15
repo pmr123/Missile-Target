@@ -9,8 +9,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-        <Header />
-
+          <Header />
           <Switch>
             {/* <GetData />
             <Solution /> */}
