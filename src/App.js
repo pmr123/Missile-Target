@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
-import GetData from './containers/GetData/GetData';
-import ThreeAnim from './components/ThreeAnim/ThreeAnim';
+import GetData from './components/GetData/GetData';
+import Solution from './containers/Solution/Solution';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
 
 class App extends Component {
-
-  
-
   render() {
     return (
-      <div className="App">
-        <GetData />
-        <ThreeAnim />
-
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <Switch>
+            {/* <GetData />
+            <Solution /> */}
+            <Header />
+            <Route path="/" exact component={GetData} />
+            <Route path="/sol" exact component={Solution} />
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }
