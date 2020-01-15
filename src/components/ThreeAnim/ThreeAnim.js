@@ -17,7 +17,7 @@ class ThreeAnim extends Component {
         // camera
 
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-        camera.position.set(1200, 100, 1500);
+        camera.position.set(1700, 900, 1900);
         // lights
         scene.add(new THREE.AmbientLight(0x666666));
         var light = new THREE.DirectionalLight(0xdfebff, 1);
@@ -127,10 +127,10 @@ class ThreeAnim extends Component {
         var ballistic = new GLTFLoader();
         ballistic.load('models/ballistic_missile/scene.gltf', (gltf) => {
             ball = gltf.scene;
-            ball.scale.set(1.2, 1.2, 1.2);
+            ball.scale.set(80, 80, 80);
             ball.position.set(550, -180, -2400);
-            ball.rotation.x = 165;
-            // interceptor.rotation.x=- Math.PI / 2;
+            ball.rotation.x = Math.PI / 4;
+            ball.rotation.z=- Math.PI / 2;
             scene.add(ball);
         });
 
