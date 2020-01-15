@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import Blog from './containers/Blog/Blog';
+import GetData from './containers/GetData/GetData';
 import ThreeAnim from './components/ThreeAnim/ThreeAnim';
 
 class App extends Component {
@@ -9,7 +9,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div>LOOK BELOW!!!</div>
+        <GetData />
         <ThreeAnim />
 
       </div>
