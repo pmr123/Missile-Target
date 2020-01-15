@@ -6,7 +6,10 @@ class GetData extends Component{
     render(){
         return(
             <div className={classes.InputDiv}>
-                This is Getdata
+                <h4>This is Getdata</h4>
+                <form>
+                    
+                </form>
                 <Link to="/sol">
                     <button>Start</button>
                 </Link>
