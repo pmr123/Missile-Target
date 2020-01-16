@@ -2,3 +2,34 @@
     height: 85vh;
     text-align: center;
 }
+button{
+    background: transparent;
+    color: indigo;
+    padding: 0.6rem 1rem ;
+    margin: 0.5rem;
+    border: 1px solid darkcyan;
+    border-radius: 15px;
+}
+button:hover{
+    background: skyblue;
+    cursor: pointer;
+}
+.FileInp{
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+
+    padding: 15px;
+    border: 1px solid gray;
+}
+.sec{
+    padding-top: 1rem;
+}
+/* .sec h5{
+    margin-bottom: 2rem;
+} */
+.sec label{
+    margin-top:5rem;
+}
+.SubmitButton{
+    display: none;
+}

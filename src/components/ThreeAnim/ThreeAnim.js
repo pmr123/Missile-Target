@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import classes from './ThreeAnim.module.css';
-
-
 
 class ThreeAnim extends Component {
-
     componentDidMount() {
         var camera, scene, renderer;
         var objects = [];
@@ -15,7 +11,6 @@ class ThreeAnim extends Component {
         scene.background = new THREE.Color(0xcce0ff);
         //scene.fog = new THREE.Fog( 0xcce0ff, 500, 10000 );
         // camera
-
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
         camera.position.set(1700, 900, 1900);
         // lights
@@ -33,9 +28,7 @@ class ThreeAnim extends Component {
         light.shadow.camera.bottom = - d;
         light.shadow.camera.far = 1000;
         scene.add(light);
-
         var loader = new THREE.TextureLoader();
-
         var groundTexture = loader.load('images/grass.jpg');
         groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
         groundTexture.repeat.set(25, 25);
@@ -48,13 +41,11 @@ class ThreeAnim extends Component {
         mesh.receiveShadow = true;
         scene.add(mesh);
         objects.push(mesh);
-
         //roll-over
         // var rollOverGeo = new THREE.BoxBufferGeometry( 50, 50, 50 );
         // rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
         // rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
         // scene.add( rollOverMesh );
-
         //100 x 100
         var gridgeo = new THREE.PlaneGeometry(1000, 1000);
         var gridmaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, side: THREE.DoubleSide });
@@ -62,16 +53,13 @@ class ThreeAnim extends Component {
         gridplane.position.set(1000, -240, 100);
         gridplane.rotation.x = - Math.PI / 2;
         scene.add(gridplane);
-
         console.log(gridplane);
         // cubes
         var cubeGeo = new THREE.PlaneBufferGeometry(50, 50, 50);
         // cubeMaterial = new THREE.MeshLambertMaterial( { color: 0xff0000});
-
         // grid
         // var gridHelper = new THREE.GridHelper( 100, 100 );
         // scene.add( gridHelper );
-
         //interceptors
         var gltfloader1 = new GLTFLoader();
         gltfloader1.load('models/interceptor/scene.gltf', (gltf) => {
@@ -81,7 +69,7 @@ class ThreeAnim extends Component {
             // interceptor.rotation.x=- Math.PI / 2;
             scene.add(interceptor);
         });
-
+        
         var gltfloader2 = new GLTFLoader();
         gltfloader2.load('models/interceptor/scene.gltf', (gltf) => {
             var interceptor = gltf.scene;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import classes from './FormM.module.css';
-class FormM extends Component{
+import classes from '../FormM/FormM.module.css';
+class FormI extends Component{
     constructor(props){
         super(props);
       this.state={
@@ -9,22 +9,18 @@ class FormM extends Component{
     }
     firsthandler = (e) =>{
         this.setState({val: e.target.value})
-        // e.target.value
         console.log(this.state);
     }
     render(){
         return(
             // <form >
             <div className={classes.Forms}>
-                {/* <input placeholder="Missile Path" value={this.state.val} onChange={(e)=>{this.firsthandler(e)}}/> */}
-                <input placeholder="Missile Path" onChange={this.props.handleChange} required/>
                 <input placeholder="X-coordinate" type="number" required/>
                 <input placeholder="Y-coordinate" type="number" required/>
-                <input placeholder="Z-coordinate" type="number" required/>
                 <input placeholder="Velocity (in m/s)" type="number" required/>               
             </div>
             // </form>
         )
     }
 }
-export default FormM;
+export default FormI;

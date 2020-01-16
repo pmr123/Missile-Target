@@ -5,6 +5,17 @@
     margin: 0.4rem;
     border: none;
     border-bottom: 1px solid indigo;
-    width: 100px;
+    /* width: 100px; */
+    padding: 0.5rem;
     text-align: center;
+}
+.Forms button{
+    background: transparent;
+    color: indigo;
+    padding: 1rem;
+    border-radius: 15px;
+}
+.Forms button:hover{
+    background: skyblue;
+    cursor: pointer;
 }
