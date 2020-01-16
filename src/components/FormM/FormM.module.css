@@ -5,4 +5,6 @@
     margin: 0.4rem;
     border: none;
     border-bottom: 1px solid indigo;
+    width: 100px;
+    text-align: center;
 }
