@@ -13,10 +13,8 @@ class Solution extends Component {
                 {/* <div className={classes.divider}>
                     <div className={classes.div1}> */}
                 <div>Solution</div>
-
-                    <ThreeAnim  />
-                    {/* </div>
-
+                <ThreeAnim />
+                {/* </div>
                 //  <a href="/sim" target="_blank"><button>Simulate!</button></a> 
                 </div> */}
             </div>

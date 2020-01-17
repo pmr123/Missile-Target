@@ -21,7 +21,7 @@ class FormM extends Component{
                 <input placeholder="X-coordinate" type="number" required/>
                 <input placeholder="Y-coordinate" type="number" required/>
                 <input placeholder="Z-coordinate" type="number" required/>
-                <input placeholder="Velocity (in m/s)" type="number" required/>               
+                <input placeholder="Velocity (in m/s)" type="number" min="0" required/>               
             </div>
             // </form>
         )
