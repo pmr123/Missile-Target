@@ -22,7 +22,26 @@
 
 		<script>
 
-			var thita,phi;
+			var thita_ballistic,phi_ballistic,thita_antiballistic,phi_antiballistic,time=0,velocity_ballistic,velocity_antiballistic;
+			var antiballposz,antiballposx,antiballposx,ballposz,ballposx,ballposy;
+			antiballposx= 550;
+			antiballposy=-130;
+			antiballposz= 480;				
+			const gravity = 9.8;
+			ballposx = 550;
+			ballposy = -180;
+			ballposz = 2960;
+			velocity_antiballistic=15;
+			velocity_ballistic=15;
+			thita_ballistic=Math.PI/4;
+			phi_ballistic=-Math.PI/4;
+			thita_antiballistic=Math.PI/4;
+			phi_antiballistic=Math.PI/4;
+
+			var antiballistic_data=[{t:"45",p:"45", x: "550", y: "-240", z: "480", V: "15"},
+								{t:"45",p:"45", x: "550", y: "-240", z: "-240", V: "15"},
+								{t:"45",p:"45", x: "1420", y: "-240", z: "480", V: "15"},
+								{t:"45",p:"45", x: "1420", y: "-240", z: "-240", V: "15"}]; 
 
 			var camera, scene, renderer;
 			var objects = [];
@@ -116,7 +135,8 @@
 					    color.setRGB(255, 0, 0);
 					    var  textMaterial_z = new THREE.MeshBasicMaterial({ color: color });
 					    var  text_z = new THREE.Mesh(textGeo_z , textMaterial_z);
-					    text_z.position.set(400,-240,-300)
+					    text_z.position.set(400,-240,-300);
+					    text_z.rotation.y=Math.PI;
 					    scene.add(text_z);
 					});
 
@@ -152,54 +172,77 @@
 					    scene.add(text_x);
 					})
 
-					// cubes
-					// var cubeGeo = new THREE.PlaneBufferGeometry( 50, 50, 50 );
-					// cubeMaterial = new THREE.MeshLambertMaterial( { color: 0xff0000});
+					function place_interceptors(antiballistic_data) {
 
-					 // grid
-					// var gridHelper = new THREE.GridHelper( 100, 100 );
-					// scene.add( gridHelper );
+
+						for (var i = 0; i <antiballistic_data.length; i++) {
+
+						
+
+							//interceptors
+							var gltfloader = new THREE.GLTFLoader();
+							gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
+								var interceptor=gltf.scene;
+								interceptor.scale.set(13,13,13);
+								interceptor.position.set(Number(antiballistic_data[i].x),Number(antiballistic_data[i].y),Number(antiballistic_data[i].x));
+								interceptor.rotation.y=Math.PI;
+								scene.add(interceptor);
+							});
+
+							//anti_ballistic
+						var anti_ballistic=new THREE.GLTFLoader();
+						anti_ballistic.load('models/anti_ballistic/scene.gltf',(gltf)=>{
+						anti_ball=gltf.scene;
+						anti_ball.scale.set(70,70,70);
+						anti_ball.rotation.z=phi_antiballistic;
+						anti_ball.rotation.x=Math.PI-thita_antiballistic;
+						anti_ball.position.set(Number(antiballistic_data[i].x),Number(antiballistic_data[i].y),Number(antiballistic_data[i].x));
+						// interceptor.rotation.x=- Math.PI / 2;
+						scene.add(anti_ball);
+					});
+						}
+					}
 
 					//interceptors
-					var gltfloader = new THREE.GLTFLoader();
-					gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-						var interceptor=gltf.scene;
-						interceptor.scale.set(13,13,13);
-						interceptor.position.set(550,-240,480);
-						interceptor.rotation.y=Math.PI;
-						// interceptor.rotation.x=- Math.PI / 2;
-						scene.add(interceptor);
-					});
+					// var gltfloader = new THREE.GLTFLoader();
+					// gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
+					// 	var interceptor=gltf.scene;
+					// 	interceptor.scale.set(13,13,13);
+					// 	interceptor.position.set(550,-240,480);
+					// 	interceptor.rotation.y=Math.PI;
+					// 	// interceptor.rotation.x=- Math.PI / 2;
+					// 	scene.add(interceptor);
+					// });
 
-					var gltfloader = new THREE.GLTFLoader();
-					gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-						var interceptor=gltf.scene;
-						interceptor.scale.set(13,13,13);
-						interceptor.position.set(550,-240,-240);
-						// interceptor.rotation.x=- Math.PI / 2;
-						interceptor.rotation.y=Math.PI;
-						scene.add(interceptor);
-					});
+					// var gltfloader = new THREE.GLTFLoader();
+					// gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
+					// 	var interceptor=gltf.scene;
+					// 	interceptor.scale.set(13,13,13);
+					// 	interceptor.position.set(550,-240,-240);
+					// 	// interceptor.rotation.x=- Math.PI / 2;
+					// 	interceptor.rotation.y=Math.PI;
+					// 	scene.add(interceptor);
+					// });
 
-					var gltfloader = new THREE.GLTFLoader();
-					gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-						var interceptor=gltf.scene;
-						interceptor.scale.set(13,13,13);
-						interceptor.position.set(1420,-240,480);
-						// interceptor.rotation.x=- Math.PI / 2;
-						interceptor.rotation.y=Math.PI;
-						scene.add(interceptor);
-					});
+					// var gltfloader = new THREE.GLTFLoader();
+					// gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
+					// 	var interceptor=gltf.scene;
+					// 	interceptor.scale.set(13,13,13);
+					// 	interceptor.position.set(1420,-240,480);
+					// 	// interceptor.rotation.x=- Math.PI / 2;
+					// 	interceptor.rotation.y=Math.PI;
+					// 	scene.add(interceptor);
+					// });
 
-					var gltfloader = new THREE.GLTFLoader();
-					gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-						var interceptor=gltf.scene;
-						interceptor.scale.set(13,13,13);
-						interceptor.position.set(1420,-240,-240);
-						// interceptor.rotation.x=- Math.PI / 2;
-						interceptor.rotation.y=Math.PI;
-						scene.add(interceptor);
-					});
+					// var gltfloader = new THREE.GLTFLoader();
+					// gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
+					// 	var interceptor=gltf.scene;
+					// 	interceptor.scale.set(13,13,13);
+					// 	interceptor.position.set(1420,-240,-240);
+					// 	// interceptor.rotation.x=- Math.PI / 2;
+					// 	interceptor.rotation.y=Math.PI;
+					// 	scene.add(interceptor);
+					// });
 
 					var expo=new THREE.GLTFLoader();
 					expo.load('models/blast/scene.gltf',(gltf)=>{
@@ -208,12 +251,6 @@
 						// interceptor.rotation.x=- Math.PI / 2;
 						scene.add(expo);
 					});
-					// var expo=new THREE.OBJLoader();
-					// expo.load('models/explosion/explosion.obj',(obj)=>{
-					// 	explosion=obj;
-					// 	explosion.visible=false;
-					// 	scene.add(explosion);
-					// })
 
 					var anti_ball,ball;
 
@@ -222,8 +259,8 @@
 					anti_ballistic.load('models/anti_ballistic/scene.gltf',(gltf)=>{
 						anti_ball=gltf.scene;
 						anti_ball.scale.set(70,70,70);
-						anti_ball.rotation.y=Math.PI/2;
-						anti_ball.rotation.x=-Math.PI/4;
+						anti_ball.rotation.z=phi_antiballistic;
+						anti_ball.rotation.x=Math.PI-thita_antiballistic;
 						anti_ball.position.set(550,-130,480);
 						// interceptor.rotation.x=- Math.PI / 2;
 						scene.add(anti_ball);
@@ -232,20 +269,15 @@
 					var ballistic=new THREE.GLTFLoader();
 					ballistic.load('models/ballistic_missile/scene.gltf',(gltf)=>{
 						ball=gltf.scene;
-						ball.scale.set(80,80,80);
+						ball.scale.set(100,100,100);
 						ball.position.set(550,-180,2960);
-						ball.rotation.x=-Math.PI/4;
-						ball.rotation.z=-Math.PI/2;
+						ball.rotation.x=thita_ballistic;
+						ball.rotation.z=Math.PI-phi_ballistic;
 						//console.log(ball);
 						// interceptor.rotation.x=- Math.PI / 2;
 						scene.add(ball);
 					});
 
-
-
-
-					raycaster = new THREE.Raycaster();
-					mouse = new THREE.Vector2();
 
 
 					renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -268,9 +300,6 @@
 					controls.maxPolarAngle = Math.PI / 2;
 
 					window.addEventListener( 'resize', onWindowResize, false );
-					// document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-					// document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-
 					function onWindowResize() {
 					camera.aspect = window.innerWidth / window.innerHeight;
 					camera.updateProjectionMatrix();
@@ -286,27 +315,8 @@
 					});
 					
 
-        			var antiballposx= 550;
-					var antiballposy=-130;
-					var antiballposz= 480;
-					// ball velocity vector:
-					var antiball_velocityx = 0;
-					var antiball_velocityy = 100;
-					var antiball_velocityz = 120;
-					// gravity constant:
-					const gravity = 9.8;
-
-					var ballposx = 550;
-					var ballposy = -180;
-					var ballposz = 2960;
-					// ball velocity vector:
-					var ball_velocityx = 0;
-					var ball_velocityy = 100;
-					var ball_velocityz = -120;
-
-					var viewCount=15;
-					var angleofballistic=-1.5*Math.PI;
-					var angleofantiballistic=Math.PI;
+        			
+				
 
 					function render() {
 					requestAnimationFrame(render);
@@ -317,66 +327,28 @@
 
 					render();
 
-					var pathplotted=false;
 
 					function animate() {
 						requestAnimationFrame(animate);
 
-						if (antiballposz<=ballposz && antiballposy!=ballposy) {
-						antiball_velocityy -= gravity;
-					    antiballposx += antiball_velocityx;
-					    antiballposy += antiball_velocityy;
-					    antiballposz += antiball_velocityz;
+						var data=antiballistic_data[0]
+						console.log(data.t);
 
-					    anti_ball.position.x=antiballposx;
-					    anti_ball.position.y=antiballposy;
-					    anti_ball.position.z=antiballposz;
-
-					    	ball_velocityy -= gravity;
-						    ballposx += ball_velocityx;
-						    ballposy += ball_velocityy;
-						    ballposz += ball_velocityz;
-
-						    ball.position.x=ballposx;
-						    ball.position.y=ballposy;
-						    ball.position.z=ballposz;
-
-						    angleofantiballistic-=0.01;
-						    angleofballistic-=0.01;
-						    anti_ball.rotation.x=angleofantiballistic;
-						    ball.rotation.x=angleofballistic;
-
-						// var pointGeometry = new THREE.Geometry();
-						// var pointloc = new THREE.Vector3(antiballposx,antiballposy,antiballposy);
-						// pointGeometry.vertices.push(pointloc);
-						// var pointMaterial = new THREE.PointsMaterial( { color: 0xffff00 } );
-						// var pointmesh = new THREE.Points( pointGeometry, pointMaterial);
-						// pointmesh.scale.set(100,100,100);
-						// //console.log(pointmesh);
-						// scene.add(pointmesh);
-
-						}else{
-							anti_ball.visible=false;
-							ball.visible=false;
-							expo.position.x=550;
-							expo.position.y=antiballposy;
-							expo.position.z=antiballposz;
-							expo.scale.set(30,30,30);
-							if(viewCount!=0){
-								expo.visible=true;
-								viewCount-=1;
-								}else{
-									expo.visible=false;
-								}
-							}
+						if(ball.position.y>=-240){
+						time=time+0.01;
+						ball.position.y+=velocity_ballistic*Math.sin(thita_ballistic)*time-((gravity*time*time)/2);
+						ball.position.x+=velocity_ballistic*Math.cos(thita_ballistic)*Math.cos(phi_ballistic)*time;
+						ball.position.z+=velocity_ballistic*Math.cos(thita_ballistic)*Math.sin(phi_ballistic)*time;
+						ball.rotation.z-=0.005;
 						
-						
-					
-					
+						anti_ball.position.y+=velocity_antiballistic*Math.sin(thita_antiballistic)*time-((gravity*time*time)/2);
+						anti_ball.position.x+=velocity_antiballistic*Math.cos(thita_antiballistic)*Math.cos(phi_antiballistic)*time;
+						anti_ball.position.z+=velocity_antiballistic*Math.cos(thita_antiballistic)*Math.sin(phi_antiballistic)*time;
+						anti_ball.rotation.x-=0.005;
+
+						}
+
 					}
-
-					
-
 
 		</script>
 
