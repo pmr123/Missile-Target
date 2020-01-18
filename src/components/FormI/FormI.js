@@ -16,7 +16,7 @@ class FormI extends Component{
             // <form >
             <div className={classes.Forms}>
                 <input placeholder="X-coordinate" type="number" min="-100" max="100" required/>
-                <input placeholder="Y-coordinate" type="number" min="-100" max="100"  required/>
+                <input placeholder="Z-coordinate" type="number" min="-100" max="100"  required/>
                 <input placeholder="Velocity (in m/s)" type="number" min="0" required/>               
             </div>
             // </form>

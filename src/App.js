@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ThreeAnim from './components/ThreeAnim/ThreeAnim';
 
 class App extends Component {
+
   render() {
     return (
         <div className="App">

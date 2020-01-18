@@ -16,12 +16,14 @@ class FormM extends Component{
         return(
             // <form >
             <div className={classes.Forms}>
-                {/* <input placeholder="Missile Path" value={this.state.val} onChange={(e)=>{this.firsthandler(e)}}/> */}
-                <input placeholder="Missile Path" onChange={this.props.handleChange} required/>
-                <input placeholder="X-coordinate" type="number" required/>
-                <input placeholder="Y-coordinate" type="number" required/>
-                <input placeholder="Z-coordinate" type="number" required/>
-                <input placeholder="Velocity (in m/s)" type="number" min="0" required/>               
+                {/* <input placeholder="Missile Path" onChange={this.props.handleChange} value={this.state.val} onChange={(e)=>{this.firsthandler(e)}}/> */}
+               
+                <input placeholder="X-coordinate" type="number" />
+                <input placeholder="Y-coordinate" type="number" />
+                <input placeholder="Z-coordinate" type="number" />
+                <input placeholder="Velocity (in m/s)" type="number" min="0" />   
+                <input placeholder="Θ (in deg)" type="number" min="0"    />
+                <input placeholder="Φ (in deg)" type="number" max="360"  />            
             </div>
             // </form>
         )

@@ -29,23 +29,15 @@
                         var headers = allTextLines[0].split(/\t|,/);
                         var lines = [];
                         var objs = [];
-
                         for (var i=1; i<allTextLines.length; i++) {
                             var data = allTextLines[i].split(/\t|,/);
-                             
                             if (data.length == headers.length) {
-                            
-                            var obj = {"NAME":data[0], "SURNAME":data[1]};
-                           
-                            objs.push(obj);
-                            
-
+                            var obj = {"NAME":data[0], "SURNAME":data[1]};       
+                            objs.push(obj);   
                             }
-
                         }
                         return JSON.stringify(objs);
                    }
-
                 function loadFile(o)
                 {
                     var fr = new FileReader();
@@ -55,17 +47,9 @@
                         };
                     fr.readAsText(o.files[0]);
                 }
-
                 function showDataFile(e, o)
                 {
                     var res=e.target.result;
-                    
-
-                    // var a=res.split("-");
-                    // for(var i=0;i<a.length;i++){
-                    //    var s= a[i].split(",");
-                    //    alert(s[0]);
-                    // }
                     document.getElementById("data").innerText = csvUpload(res);
                 }
             </script>
