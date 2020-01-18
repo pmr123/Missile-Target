@@ -15,12 +15,8 @@ class Solution extends Component {
 
         }
         this.dboy = {};
-
         //    this.state=this.props.hehe
-
     }
-
-
     componentDidMount() {
         // console.log(this.props.hehe);
         let missobj = this.props.hehe;
@@ -53,16 +49,50 @@ class Solution extends Component {
             var points, onerow, onecell;
             var noofrows = Object.keys(arr.dd);
             onerow = noofrows.map((r) => {
-                points = Object.values(arr.dd[r]);
-                onecell = points.map((t) =>
-                    {
-                    console.log({t});
-                    return <td>{t}</td>;
-                });
+                points = arr.dd[r];
+
+                if (points.didcollide == false) {
+                    console.log("if", points.didcollide);
+                    onecell = (
+                        <tr className={classes.row1}>
+                            <td>{r}</td>
+                            <td>N/A</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>);
+                }
+                else {
+                    console.log("else", points.didcollide);
+
+                    // onecell = points.map((t) =>
+                    // {
+                    // console.log({t});
+                    onecell = (
+                        <tr className={classes.row1}>
+                            <td>{r}</td>
+                            <td>{points.interceptor}</td>
+                            <td>{points.x}</td>
+                            <td>{points.y}</td>
+                            <td>{points.z}</td>
+                            <td>{points.t}</td>
+                            <td>{points.theta}</td>
+                            <td>{points.phi}</td>
+                        </tr>
+                    )
+
+                    //  return <td>{t}</td>;
+                }
+                // }
+
                 console.log(onecell);
-                return <tr>{onecell}</tr>;
+                var html
+                return <tbody className={classes.body}>{onecell}</tbody>;
             });
-            console.log(onerow);
+            // console.log(onerow);
         }
         return (
             <div >
@@ -73,17 +103,17 @@ class Solution extends Component {
                     <div className={classes.div1}> */}
                     <div>Solution</div>
                     <table className={classes.Table}>
-                        <thead>
+                        <thead className={classes.row1}>
+                            <td>Missile ID</td>
                             <td>Interceptor ID</td>
                             <td>X-coord of Collision Point</td>
                             <td>Y-coord of Collision Point</td>
                             <td>Z-coord of Collision Point</td>
-                            <td>Expected Velocity</td>
-                            <td>Expected Θ</td>
-                            <td>Expected Φ</td>
-                            <td>Interceptor ID</td>
+                            <td>Time until Collision</td>
+                            <td>Required Θ</td>
+                            <td>Required Φ</td>
                         </thead>
-                        <tbody >{onerow}</tbody>
+                        {onerow}
                     </table>
                 </div>
                 <ThreeAnim hehe={this.props.hehe} />

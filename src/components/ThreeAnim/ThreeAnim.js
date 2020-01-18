@@ -232,7 +232,7 @@ class ThreeAnim extends Component {
     //     renderer.setSize(window.innerWidth, window.innerHeight);
     //     document.body.appendChild(renderer.domElement);
 
-        
+
     //     var controls = new MapControls(camera, renderer.domElement);
 
     //     controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
@@ -336,335 +336,335 @@ class ThreeAnim extends Component {
     //         }
     //     }
     // }
-    componentDidMount(){
-        var thita_ballistic,phi_ballistic,thita_antiballistic,phi_antiballistic,time=0,velocity_ballistic,velocity_antiballistic;
-			var antiballposz,antiballposx,antiballposy,ballposz,ballposx,ballposy;
-			antiballposx= 550;
-			antiballposy=-130;
-			antiballposz= 480;				
-			const gravity = 9.8;
-			ballposx = 550;
-			ballposy = -180;
-			ballposz = 2960;
-			velocity_antiballistic=15;
-			velocity_ballistic=15;
-			thita_ballistic=Math.PI/4;
-			phi_ballistic=-Math.PI/4;
-			thita_antiballistic=Math.PI/4;
-			phi_antiballistic=Math.PI/4;
+    componentDidMount() {
+        var thita_ballistic, phi_ballistic, thita_antiballistic, phi_antiballistic, time = 0, velocity_ballistic, velocity_antiballistic;
+        var antiballposz, antiballposx, antiballposy, ballposz, ballposx, ballposy;
+        antiballposx = 550;
+        antiballposy = -130;
+        antiballposz = 480;
+        const gravity = 9.8;
+        ballposx = 550;
+        ballposy = -180;
+        ballposz = 2960;
+        velocity_antiballistic = 15;
+        velocity_ballistic = 15;
+        thita_ballistic = Math.PI / 4;
+        phi_ballistic = -Math.PI / 4;
+        thita_antiballistic = Math.PI / 4;
+        phi_antiballistic = Math.PI / 4;
 
-			var antiballistic_data=[{t:"45",p:"45", x: "550", y: "-240", z: "480", V: "15"},
-								{t:"45",p:"45", x: "550", y: "-240", z: "-240", V: "15"},
-								{t:"45",p:"45", x: "1420", y: "-240", z: "480", V: "15"},
-								{t:"45",p:"45", x: "1420", y: "-240", z: "-240", V: "15"}]; 
+        var antiballistic_data = [{ t: "45", p: "45", x: "550", y: "-240", z: "480", V: "15" },
+        { t: "45", p: "45", x: "550", y: "-240", z: "-240", V: "15" },
+        { t: "45", p: "45", x: "1420", y: "-240", z: "480", V: "15" },
+        { t: "45", p: "45", x: "1420", y: "-240", z: "-240", V: "15" }];
 
-			var camera, scene, renderer;
-			var objects = [];
-			scene = new THREE.Scene();
-					scene.background = new THREE.Color( 0xcce0ff );
-					//scene.fog = new THREE.Fog( 0xcce0ff, 500, 10000 );
+        var camera, scene, renderer;
+        var objects = [];
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xcce0ff);
+        //scene.fog = new THREE.Fog( 0xcce0ff, 500, 10000 );
 
-					// camera
-					camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
-					camera.position.set( -1400, 100, -1600 );
-					// lights
-					scene.add( new THREE.AmbientLight( 0x666666 ) );
-					var light = new THREE.DirectionalLight( 0xdfebff, 1 );
-					light.position.set( 50, 200, 100 );
-					light.position.multiplyScalar( 1.3 );
-					light.castShadow = true;
-					light.shadow.mapSize.width = 1024;
-					light.shadow.mapSize.height = 1024;
-					var d = 300;
-					light.shadow.camera.left = - d;
-					light.shadow.camera.right = d;
-					light.shadow.camera.top = d;
-					light.shadow.camera.bottom = - d;
-					light.shadow.camera.far = 1000;
-					scene.add( light );
+        // camera
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
+        camera.position.set(-1400, 100, -1600);
+        // lights
+        scene.add(new THREE.AmbientLight(0x666666));
+        var light = new THREE.DirectionalLight(0xdfebff, 1);
+        light.position.set(50, 200, 100);
+        light.position.multiplyScalar(1.3);
+        light.castShadow = true;
+        light.shadow.mapSize.width = 1024;
+        light.shadow.mapSize.height = 1024;
+        var d = 300;
+        light.shadow.camera.left = - d;
+        light.shadow.camera.right = d;
+        light.shadow.camera.top = d;
+        light.shadow.camera.bottom = - d;
+        light.shadow.camera.far = 1000;
+        scene.add(light);
 
-					var loader = new THREE.TextureLoader();
+        var loader = new THREE.TextureLoader();
 
-					var groundTexture = loader.load( 'images/grass.jpg' );
-					groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
-					groundTexture.repeat.set( 25, 25 );
-					groundTexture.anisotropy = 16;
-					groundTexture.encoding = THREE.sRGBEncoding;
-					var groundMaterial = new THREE.MeshLambertMaterial( { map: groundTexture } );
-					var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 10000, 10000 ), groundMaterial );
-					mesh.position.y = - 250;
-					mesh.rotation.x = - Math.PI / 2;
-					mesh.receiveShadow = true;
-					scene.add( mesh );
-					objects.push( mesh );
+        var groundTexture = loader.load('images/grass.jpg');
+        groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+        groundTexture.repeat.set(25, 25);
+        groundTexture.anisotropy = 16;
+        groundTexture.encoding = THREE.sRGBEncoding;
+        var groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
+        var mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(10000, 10000), groundMaterial);
+        mesh.position.y = - 250;
+        mesh.rotation.x = - Math.PI / 2;
+        mesh.receiveShadow = true;
+        scene.add(mesh);
+        objects.push(mesh);
 
-					//roll-over
-					// var rollOverGeo = new THREE.BoxBufferGeometry( 50, 50, 50 );
-					// rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
-					// rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
-					// scene.add( rollOverMesh );
+        //roll-over
+        // var rollOverGeo = new THREE.BoxBufferGeometry( 50, 50, 50 );
+        // rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
+        // rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
+        // scene.add( rollOverMesh );
 
-					//100 x 100
-					var gridgeo = new THREE.PlaneGeometry(1000,1000);
-					var gridmaterial = new THREE.MeshBasicMaterial( {color: 0x964B00, side: THREE.DoubleSide} );
-					var gridplane = new THREE.Mesh( gridgeo, gridmaterial );
-					gridplane.position.set(1000,-240,100);
-					gridplane.rotation.x=- Math.PI / 2;
-					scene.add( gridplane );
+        //100 x 100
+        var gridgeo = new THREE.PlaneGeometry(1000, 1000);
+        var gridmaterial = new THREE.MeshBasicMaterial({ color: 0x964B00, side: THREE.DoubleSide });
+        var gridplane = new THREE.Mesh(gridgeo, gridmaterial);
+        gridplane.position.set(1000, -240, 100);
+        gridplane.rotation.x = - Math.PI / 2;
+        scene.add(gridplane);
 
-					//axis lines
-					var linegeometry_x = new THREE.Geometry();
-					linegeometry_x.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
-					linegeometry_x.vertices.push(new THREE.Vector3(820, -240, -400));
-					/* linewidth on windows will always be 1 */
-					var linematerial_x = new THREE.LineBasicMaterial( { color: 0xffff00, linewidth: 200 } );
-					var line_x = new THREE.Line(linegeometry_x, linematerial_x);
-					scene.add(line_x);
+        //axis lines
+        var linegeometry_x = new THREE.Geometry();
+        linegeometry_x.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
+        linegeometry_x.vertices.push(new THREE.Vector3(820, -240, -400));
+        /* linewidth on windows will always be 1 */
+        var linematerial_x = new THREE.LineBasicMaterial({ color: 0xffff00, linewidth: 200 });
+        var line_x = new THREE.Line(linegeometry_x, linematerial_x);
+        scene.add(line_x);
 
-					var linegeometry_y = new THREE.Geometry();
-					linegeometry_y.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
-					linegeometry_y.vertices.push(new THREE.Vector3(500, -50, -400));
-					/* linewidth on windows will always be 1 */
-					var linematerial_y = new THREE.LineBasicMaterial( { color: 0xffff00, linewidth: 200 } );
-					var line_y = new THREE.Line(linegeometry_y, linematerial_y);
-					scene.add(line_y);
+        var linegeometry_y = new THREE.Geometry();
+        linegeometry_y.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
+        linegeometry_y.vertices.push(new THREE.Vector3(500, -50, -400));
+        /* linewidth on windows will always be 1 */
+        var linematerial_y = new THREE.LineBasicMaterial({ color: 0xffff00, linewidth: 200 });
+        var line_y = new THREE.Line(linegeometry_y, linematerial_y);
+        scene.add(line_y);
 
-					var linegeometry_z = new THREE.Geometry();
-					linegeometry_z.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
-					linegeometry_z.vertices.push(new THREE.Vector3(500, -240, -300));
-					/* linewidth on windows will always be 1 */
-					var linematerial_z = new THREE.LineBasicMaterial( { color: 0xffff00, linewidth: 200 } );
-					var line_z = new THREE.Line(linegeometry_z, linematerial_z);
-					scene.add(line_z);
+        var linegeometry_z = new THREE.Geometry();
+        linegeometry_z.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
+        linegeometry_z.vertices.push(new THREE.Vector3(500, -240, -300));
+        /* linewidth on windows will always be 1 */
+        var linematerial_z = new THREE.LineBasicMaterial({ color: 0xffff00, linewidth: 200 });
+        var line_z = new THREE.Line(linegeometry_z, linematerial_z);
+        scene.add(line_z);
 
-					//text
-					var fontLoader_z = new THREE.FontLoader();
-					fontLoader_z.load("fonts/helvetiker_regular.typeface.json",function(tex){ 
-					    var  textGeo_z = new THREE.TextGeometry('Z', {
-					            size: 40,
-					            height: 5,
-					            curveSegments: 6,
-					            font: tex,
-					    });
-					    var  color = new THREE.Color();
-					    color.setRGB(255, 0, 0);
-					    var  textMaterial_z = new THREE.MeshBasicMaterial({ color: color });
-					    var  text_z = new THREE.Mesh(textGeo_z , textMaterial_z);
-					    text_z.position.set(400,-240,-300);
-					    text_z.rotation.y=Math.PI;
-					    scene.add(text_z);
-					});
+        //text
+        var fontLoader_z = new THREE.FontLoader();
+        fontLoader_z.load("fonts/helvetiker_regular.typeface.json", function (tex) {
+            var textGeo_z = new THREE.TextGeometry('Z', {
+                size: 40,
+                height: 5,
+                curveSegments: 6,
+                font: tex,
+            });
+            var color = new THREE.Color();
+            color.setRGB(255, 0, 0);
+            var textMaterial_z = new THREE.MeshBasicMaterial({ color: color });
+            var text_z = new THREE.Mesh(textGeo_z, textMaterial_z);
+            text_z.position.set(400, -240, -300);
+            text_z.rotation.y = Math.PI;
+            scene.add(text_z);
+        });
 
-					var fontLoader_y = new THREE.FontLoader();
-					fontLoader_y.load("fonts/helvetiker_regular.typeface.json",function(tex){ 
-					    var  textGeo_y = new THREE.TextGeometry('Y', {
-					            size: 40,
-					            height: 5,
-					            curveSegments: 6,
-					            font: tex,
-					    });
-					    var  color = new THREE.Color();
-					    color.setRGB(255, 0, 0);
-					    var  textMaterial_y = new THREE.MeshBasicMaterial({ color: color });
-					    var  text_y = new THREE.Mesh(textGeo_y , textMaterial_y);
-					    text_y.position.set(500,-50,-400);
-					    scene.add(text_y);
-					})
+        var fontLoader_y = new THREE.FontLoader();
+        fontLoader_y.load("fonts/helvetiker_regular.typeface.json", function (tex) {
+            var textGeo_y = new THREE.TextGeometry('Y', {
+                size: 40,
+                height: 5,
+                curveSegments: 6,
+                font: tex,
+            });
+            var color = new THREE.Color();
+            color.setRGB(255, 0, 0);
+            var textMaterial_y = new THREE.MeshBasicMaterial({ color: color });
+            var text_y = new THREE.Mesh(textGeo_y, textMaterial_y);
+            text_y.position.set(500, -50, -400);
+            scene.add(text_y);
+        })
 
-					var fontLoader_x = new THREE.FontLoader();
-					fontLoader_x.load("fonts/helvetiker_regular.typeface.json",function(tex){ 
-					    var  textGeo_x = new THREE.TextGeometry('X', {
-					            size: 40,
-					            height: 5,
-					            curveSegments: 6,
-					            font: tex,
-					    });
-					    var  color = new THREE.Color();
-					    color.setRGB(255, 0, 0);
-					    var  textMaterial_x = new THREE.MeshBasicMaterial({ color: color });
-					    var  text_x = new THREE.Mesh(textGeo_x , textMaterial_x);
-					    text_x.position.set(820, -240, -400);
-					    scene.add(text_x);
-					})
+        var fontLoader_x = new THREE.FontLoader();
+        fontLoader_x.load("fonts/helvetiker_regular.typeface.json", function (tex) {
+            var textGeo_x = new THREE.TextGeometry('X', {
+                size: 40,
+                height: 5,
+                curveSegments: 6,
+                font: tex,
+            });
+            var color = new THREE.Color();
+            color.setRGB(255, 0, 0);
+            var textMaterial_x = new THREE.MeshBasicMaterial({ color: color });
+            var text_x = new THREE.Mesh(textGeo_x, textMaterial_x);
+            text_x.position.set(820, -240, -400);
+            scene.add(text_x);
+        })
 
-					function place_interceptors(antiballistic_data) {
+        function place_interceptors(antiballistic_data) {
 
 
-						for (var i = 0; i <antiballistic_data.length; i++) {
-
-						
-
-							//interceptors
-							var gltfloader = new GLTFLoader();
-							gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-								var interceptor=gltf.scene;
-								interceptor.scale.set(13,13,13);
-								interceptor.position.set(Number(antiballistic_data[i].x),Number(antiballistic_data[i].y),Number(antiballistic_data[i].x));
-								interceptor.rotation.y=Math.PI;
-								scene.add(interceptor);
-							});
-
-							//anti_ballistic
-						var anti_ballistic=new GLTFLoader();
-						anti_ballistic.load('models/anti_ballistic/scene.gltf',(gltf)=>{
-						anti_ball=gltf.scene;
-						anti_ball.scale.set(70,70,70);
-						anti_ball.rotation.z=phi_antiballistic;
-						anti_ball.rotation.x=Math.PI-thita_antiballistic;
-						anti_ball.position.set(Number(antiballistic_data[i].x),Number(antiballistic_data[i].y),Number(antiballistic_data[i].x));
-						// interceptor.rotation.x=- Math.PI / 2;
-						scene.add(anti_ball);
-					});
-						}
-					}
-
-//					interceptors
-					var gltfloader = new GLTFLoader();
-					gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-						var interceptor=gltf.scene;
-						interceptor.scale.set(13,13,13);
-						interceptor.position.set(550,-240,480);
-						interceptor.rotation.y=Math.PI;
-						// interceptor.rotation.x=- Math.PI / 2;
-						scene.add(interceptor);
-					});
-
-					var gltfloader = new GLTFLoader();
-					gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-						var interceptor=gltf.scene;
-						interceptor.scale.set(13,13,13);
-						interceptor.position.set(550,-240,-240);
-						// interceptor.rotation.x=- Math.PI / 2;
-						interceptor.rotation.y=Math.PI;
-						scene.add(interceptor);
-					});
-
-					var gltfloader = new GLTFLoader();
-					gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-						var interceptor=gltf.scene;
-						interceptor.scale.set(13,13,13);
-						interceptor.position.set(1420,-240,480);
-						// interceptor.rotation.x=- Math.PI / 2;
-						interceptor.rotation.y=Math.PI;
-						scene.add(interceptor);
-					});
-
-					var gltfloader = new GLTFLoader();
-					gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-						var interceptor=gltf.scene;
-						interceptor.scale.set(13,13,13);
-						interceptor.position.set(1420,-240,-240);
-						// interceptor.rotation.x=- Math.PI / 2;
-						interceptor.rotation.y=Math.PI;
-						scene.add(interceptor);
-					});
-
-					var expo=new GLTFLoader();
-					expo.load('models/blast/scene.gltf',(gltf)=>{
-						expo=gltf.scene;
-                        //expo.scale.set(0,0,0);
-                        expo.visible=false;
-						// interceptor.rotation.x=- Math.PI / 2;
-						scene.add(expo);
-					});
-
-					var anti_ball,ball;
-
-					//anti_ballistic
-					var anti_ballistic=new GLTFLoader();
-					anti_ballistic.load('models/anti_ballistic/scene.gltf',(gltf)=>{
-						anti_ball=gltf.scene;
-						anti_ball.scale.set(70,70,70);
-						anti_ball.rotation.z=phi_antiballistic;
-						anti_ball.rotation.x=Math.PI-thita_antiballistic;
-						anti_ball.position.set(550,-130,480);
-						// interceptor.rotation.x=- Math.PI / 2;
-						scene.add(anti_ball);
-					});
-
-					var ballistic=new GLTFLoader();
-					ballistic.load('models/ballistic_missile/scene.gltf',(gltf)=>{
-						ball=gltf.scene;
-						ball.scale.set(100,100,100);
-						ball.position.set(550,-180,2960);
-						ball.rotation.x=thita_ballistic;
-						ball.rotation.z=Math.PI-phi_ballistic;
-						//console.log(ball);
-						// interceptor.rotation.x=- Math.PI / 2;
-						scene.add(ball);
-					});
+            for (var i = 0; i < antiballistic_data.length; i++) {
 
 
 
-					renderer = new THREE.WebGLRenderer( { antialias: true } );
-					renderer.setPixelRatio( window.devicePixelRatio );
-					renderer.setSize( window.innerWidth, window.innerHeight );
-					document.body.appendChild(renderer.domElement);
+                //interceptors
+                var gltfloader = new GLTFLoader();
+                gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
+                    var interceptor = gltf.scene;
+                    interceptor.scale.set(13, 13, 13);
+                    interceptor.position.set(Number(antiballistic_data[i].x), Number(antiballistic_data[i].y), Number(antiballistic_data[i].x));
+                    interceptor.rotation.y = Math.PI;
+                    scene.add(interceptor);
+                });
 
-					// var controls = new THREE.OrbitControls( camera, renderer.domElement );
-					// controls.maxPolarAngle = Math.PI * 0.5;
-					// controls.minDistance = 1000;
-					// controls.maxDistance = 50000;
+                //anti_ballistic
+                var anti_ballistic = new GLTFLoader();
+                anti_ballistic.load('models/anti_ballistic/scene.gltf', (gltf) => {
+                    anti_ball = gltf.scene;
+                    anti_ball.scale.set(70, 70, 70);
+                    anti_ball.rotation.z = phi_antiballistic;
+                    anti_ball.rotation.x = Math.PI - thita_antiballistic;
+                    anti_ball.position.set(Number(antiballistic_data[i].x), Number(antiballistic_data[i].y), Number(antiballistic_data[i].x));
+                    // interceptor.rotation.x=- Math.PI / 2;
+                    scene.add(anti_ball);
+                });
+            }
+        }
 
-					var controls = new MapControls( camera, renderer.domElement );
-					
-					controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-					controls.dampingFactor = 0.05;
-					controls.screenSpacePanning = false;
-					controls.minDistance = 50;
-					controls.maxDistance = 1000;
-					controls.maxPolarAngle = Math.PI / 2;
+        //					interceptors
+        var gltfloader = new GLTFLoader();
+        gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
+            var interceptor = gltf.scene;
+            interceptor.scale.set(13, 13, 13);
+            interceptor.position.set(550, -240, 480);
+            interceptor.rotation.y = Math.PI;
+            // interceptor.rotation.x=- Math.PI / 2;
+            scene.add(interceptor);
+        });
 
-					window.addEventListener( 'resize', onWindowResize, false );
-					function onWindowResize() {
-					camera.aspect = window.innerWidth / window.innerHeight;
-					camera.updateProjectionMatrix();
-					renderer.setSize( window.innerWidth, window.innerHeight );
-					}
+        var gltfloader = new GLTFLoader();
+        gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
+            var interceptor = gltf.scene;
+            interceptor.scale.set(13, 13, 13);
+            interceptor.position.set(550, -240, -240);
+            // interceptor.rotation.x=- Math.PI / 2;
+            interceptor.rotation.y = Math.PI;
+            scene.add(interceptor);
+        });
 
-					var firstclick=false;
-					window.addEventListener('click',()=>{
-						if(!firstclick){
-							firstclick=true;
-							animate();
-						}
-					});
-					
+        var gltfloader = new GLTFLoader();
+        gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
+            var interceptor = gltf.scene;
+            interceptor.scale.set(13, 13, 13);
+            interceptor.position.set(1420, -240, 480);
+            // interceptor.rotation.x=- Math.PI / 2;
+            interceptor.rotation.y = Math.PI;
+            scene.add(interceptor);
+        });
 
-        			
-				
+        var gltfloader = new GLTFLoader();
+        gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
+            var interceptor = gltf.scene;
+            interceptor.scale.set(13, 13, 13);
+            interceptor.position.set(1420, -240, -240);
+            // interceptor.rotation.x=- Math.PI / 2;
+            interceptor.rotation.y = Math.PI;
+            scene.add(interceptor);
+        });
 
-					function render() {
-					requestAnimationFrame(render);
-					renderer.render( scene, camera );
-					controls.update();
-					camera.updateProjectionMatrix();						
-					}
+        var expo = new GLTFLoader();
+        expo.load('models/blast/scene.gltf', (gltf) => {
+            expo = gltf.scene;
+            //expo.scale.set(0,0,0);
+            expo.visible = false;
+            // interceptor.rotation.x=- Math.PI / 2;
+            scene.add(expo);
+        });
 
-					render();
+        var anti_ball, ball;
+
+        //anti_ballistic
+        var anti_ballistic = new GLTFLoader();
+        anti_ballistic.load('models/anti_ballistic/scene.gltf', (gltf) => {
+            anti_ball = gltf.scene;
+            anti_ball.scale.set(70, 70, 70);
+            anti_ball.rotation.z = phi_antiballistic;
+            anti_ball.rotation.x = Math.PI - thita_antiballistic;
+            anti_ball.position.set(550, -130, 480);
+            // interceptor.rotation.x=- Math.PI / 2;
+            scene.add(anti_ball);
+        });
+
+        var ballistic = new GLTFLoader();
+        ballistic.load('models/ballistic_missile/scene.gltf', (gltf) => {
+            ball = gltf.scene;
+            ball.scale.set(100, 100, 100);
+            ball.position.set(550, -180, 2960);
+            ball.rotation.x = thita_ballistic;
+            ball.rotation.z = Math.PI - phi_ballistic;
+            //console.log(ball);
+            // interceptor.rotation.x=- Math.PI / 2;
+            scene.add(ball);
+        });
 
 
-					function animate() {
-						requestAnimationFrame(animate);
 
-						var data=antiballistic_data[0]
-						console.log(data.t);
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
-						if(ball.position.y>=-240){
-						time=time+0.01;
-						ball.position.y+=velocity_ballistic*Math.sin(thita_ballistic)*time-((gravity*time*time)/2);
-						ball.position.x+=velocity_ballistic*Math.cos(thita_ballistic)*Math.cos(phi_ballistic)*time;
-						ball.position.z+=velocity_ballistic*Math.cos(thita_ballistic)*Math.sin(phi_ballistic)*time;
-						ball.rotation.z-=0.005;
-						
-						anti_ball.position.y+=velocity_antiballistic*Math.sin(thita_antiballistic)*time-((gravity*time*time)/2);
-						anti_ball.position.x+=velocity_antiballistic*Math.cos(thita_antiballistic)*Math.cos(phi_antiballistic)*time;
-						anti_ball.position.z+=velocity_antiballistic*Math.cos(thita_antiballistic)*Math.sin(phi_antiballistic)*time;
-						anti_ball.rotation.x-=0.005;
+        // var controls = new THREE.OrbitControls( camera, renderer.domElement );
+        // controls.maxPolarAngle = Math.PI * 0.5;
+        // controls.minDistance = 1000;
+        // controls.maxDistance = 50000;
 
-						}
+        var controls = new MapControls(camera, renderer.domElement);
 
-					}
+        controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+        controls.dampingFactor = 0.05;
+        controls.screenSpacePanning = false;
+        controls.minDistance = 50;
+        controls.maxDistance = 1000;
+        controls.maxPolarAngle = Math.PI / 2;
+
+        window.addEventListener('resize', onWindowResize, false);
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        var firstclick = false;
+        window.addEventListener('click', () => {
+            if (!firstclick) {
+                firstclick = true;
+                animate();
+            }
+        });
+
+
+
+
+
+        function render() {
+            requestAnimationFrame(render);
+            renderer.render(scene, camera);
+            controls.update();
+            camera.updateProjectionMatrix();
+        }
+
+        render();
+
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            var data = antiballistic_data[0]
+            // console.log(data.t);
+
+            if (ball.position.y >= -240) {
+                time = time + 0.01;
+                ball.position.y += velocity_ballistic * Math.sin(thita_ballistic) * time - ((gravity * time * time) / 2);
+                ball.position.x += velocity_ballistic * Math.cos(thita_ballistic) * Math.cos(phi_ballistic) * time;
+                ball.position.z += velocity_ballistic * Math.cos(thita_ballistic) * Math.sin(phi_ballistic) * time;
+                ball.rotation.z -= 0.005;
+
+                anti_ball.position.y += velocity_antiballistic * Math.sin(thita_antiballistic) * time - ((gravity * time * time) / 2);
+                anti_ball.position.x += velocity_antiballistic * Math.cos(thita_antiballistic) * Math.cos(phi_antiballistic) * time;
+                anti_ball.position.z += velocity_antiballistic * Math.cos(thita_antiballistic) * Math.sin(phi_antiballistic) * time;
+                anti_ball.rotation.x -= 0.005;
+
+            }
+
+        }
     }
     render() {
         return (

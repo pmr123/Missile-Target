@@ -17,11 +17,13 @@ class GetData extends Component {
             interceptors: 1,
             missArray: [],
             interArray: [],
-            mval: [],
-            ival: [],
+            mval: {},
+            ival: {},
             answerArray: {},
         };
         this.flag = 1;
+        this.a = 0;
+        this.g = 9.8;
 
     }
 
@@ -59,14 +61,17 @@ class GetData extends Component {
     }
 
     submitted1 = (e) => {
-        let inpels = ReactDOM.findDOMNode(this), i = 1, s = {};
+        let inpels = ReactDOM.findDOMNode(this), i = 1, k = 0, s = {};
         inpels = inpels.querySelectorAll('#missile input');
         Array.prototype.map.call(inpels, inp => {
+            console.log(inp);
             switch (i % 6) {
                 case 0: s['p'] = inp.value;
-                    this.state.mval.push(s);
-                    // console.log(this.state);
+                    this.state.mval[k] = s;
+                    console.log(this.state.mval);
+                    console.warn(s);
                     s = {};
+                    k += 1;
                     break;
                 case 1: s['x'] = inp.value;
                     break;
@@ -84,19 +89,21 @@ class GetData extends Component {
             i += 1;
         });
         inpels = ReactDOM.findDOMNode(this);
-        i = 1; s = {};
+        i = 1; s = {}; k = 0;
         inpels = inpels.querySelectorAll('#interceptor input');
         Array.prototype.map.call(inpels, inp => {
             switch (i % 3) {
-                case 0: s['V'] = inp.value;
-                    s['z'] = 0;
-                    this.state.ival.push(s);
+                case 0: s['y'] = 0;
+                    s['V'] = inp.value;
+                    this.state.ival[k] = s;
+                    // console.warn(s);
+                    k += 1;
                     // console.log(this.state);
                     s = {};
                     break;
                 case 1: s['x'] = inp.value;
                     break;
-                case 2: s['y'] = inp.value;
+                case 2: s['z'] = inp.value;
                     break;
                 default: break;
             }
@@ -106,7 +113,8 @@ class GetData extends Component {
 
         // this.setState({flag:0});
         this.flag = 0;
-        let dd = this.findin(this.state.mval, this.state.ival, 0, 0);
+        console.log(this.state.mval, this.state.ival);
+        let dd = this.findin(this.state.mval, this.state.ival, 0, 9.8);
         this.setState({ dd: dd });
         console.log(dd);
         e.preventDefault();
@@ -117,31 +125,33 @@ class GetData extends Component {
         //Split per line on tabs and commas
         var headers = allTextLines[0].split(/\t|,/);
         var lines = [];
-        var objs = [];
-        for (var i = 1; i < allTextLines.length; i++) {
+        var objs = {};
+        for (var i = 0; i < allTextLines.length - 1; i++) {
             var data = allTextLines[i].split(/\t|,/);
             if (data.length == headers.length) {
                 var obj = { "x": data[0].trim(), "y": data[1].trim(), "z": data[2].trim(), "V": data[3].trim(), "t": data[4].trim(), "p": data[5].trim() };
-                objs.push(obj);
+                objs[i] = (obj);
             }
         }
-        return JSON.stringify(objs);
+        return objs;
+        // return JSON.stringify(objs);
     }
     csvUpload2(csvText) {
         //Split all the text into seperate lines on new lines and carriage return feeds
-        var allTextLines = csvText.split(/\r\n|\n/);
+        var allTextLines = csvText.split(/\r\n|\n|\r/);
         //Split per line on tabs and commas
         var headers = allTextLines[0].split(/\t|,/);
         var lines = [];
-        var objs = [];
-        for (var i = 1; i < allTextLines.length; i++) {
+        var objs = {};
+        for (var i = 0; i < allTextLines.length - 1; i++) {
             var data = allTextLines[i].split(/\t|,/);
             if (data.length == headers.length) {
-                var obj = { "x": data[0].trim(), "z": data[1].trim(), "V": data[0].trim() };
-                objs.push(obj);
+                var obj = { "x": data[0].trim(), "z": data[1].trim(), "V": data[2].trim(), "y": 0 };
+                objs[i] = obj;
             }
         }
-        return JSON.stringify(objs);
+        // return JSON.stringify(objs);
+        return objs;
     }
 
     loadFile = (o) => {
@@ -153,6 +163,9 @@ class GetData extends Component {
         fr.onload = function (e) {
             var res = e.target.result;
             JSONn = csvupload1(res);
+            // console.warn(res);
+            console.log(JSONn);
+
             this.setState({ mval: JSONn });
             return JSONn;
         }.bind(this);
@@ -166,7 +179,9 @@ class GetData extends Component {
         fr.onload = function (e) {
             var res = e.target.result;
             JSONn = csvupload2(res);
-            // console.log(JSONn);
+            // console.log(res);
+            console.log(JSONn);
+
             this.setState({ ival: JSONn });
             return JSONn;
 
@@ -176,13 +191,12 @@ class GetData extends Component {
     submitted2 = (e) => {
         // this.setState({flag:0});
         this.flag = 0;
-        let dd = this.findin(this.state.mval, this.state.ival, 0, 0);
+        console.warn(this.state.mval, this.state.ival);
+        let dd = this.findin(this.state.mval, this.state.ival, this.a, this.g);
         this.setState({ dd: dd });
         console.log(dd, this.state.dd);
         e.preventDefault();
-
     }
-
     // submitForms = (e) => {
     //     let temp = ReactDOM.findDOMNode(this);
     //     temp.querySelector("#b1").click();
@@ -203,6 +217,7 @@ class GetData extends Component {
 
     calcol(mdata, ival, a, g) {
         var j;
+        console.log("calcol");
         //data of missile
         var vm = parseFloat(mdata["V"]);
         var qm = parseFloat(mdata["t"]);
@@ -345,7 +360,7 @@ class GetData extends Component {
             }
             if (type == 0) {//root1*root2 < 0
                 if (root1 > 0) {
-                    if (z1 > 0) {
+                    if (y1 > 0) {
                         out[key] = {
                             'x': x1,
                             'y': y1,
@@ -362,8 +377,8 @@ class GetData extends Component {
                         }
                     }
                 }
-                else {
-                    if (z2 > 0) {
+                else if (root2 > 0) {
+                    if (y2 > 0) {
                         out[key] = {
                             'x': x2,
                             'y': y2,
@@ -388,7 +403,7 @@ class GetData extends Component {
             }
             else if (type == 2) { //ta = 0
                 if (root1 > 0) {
-                    if (z1 > 0) {
+                    if (y1 > 0) {
                         out[j] = {
                             'x': x1,
                             'y': y1,
@@ -405,28 +420,10 @@ class GetData extends Component {
                         }
                     }
                 }
-                else {
-                    if (z2 > 0) {
-                        out[key] = {
-                            'x': x2,
-                            'y': y2,
-                            'z': z2,
-                            't': root2,
-                            'theta': q2,
-                            'phi': f2,
-                            'didcollide': true
-                        }
-                    }
-                    else {
-                        out[key] = {
-                            'didcollide': false
-                        }
-                    }
-                }
             }
             else if (type == 3) {// root1 and root2>=0
-                if (z1 >= z2) {
-                    if (z1 > 0) {
+                if (y1 >= y2) {
+                    if (y1 > 0) {
                         out[key] = {
                             'x': x1,
                             'y': y1,
@@ -444,7 +441,7 @@ class GetData extends Component {
                     }
                 }
                 else {
-                    if (z2 > 0) {
+                    if (y2 > 0) {
                         out[key] = {
                             'x': x2,
                             'y': y2,
@@ -483,9 +480,8 @@ class GetData extends Component {
             return (ans);
         }
     }
-    findin(mval, ival, a, g) {
+    findin(mal, ival, a, g) {
         var calcol = this.calcol;
-
         var ibusy = {} // tells which interceptor is busy
         Object.keys(ival).forEach(function (key) {
             ibusy[key] = false;
@@ -493,8 +489,10 @@ class GetData extends Component {
         var destroydata = {} //final dict to be returned
         var mi = {};
         var midata;
-        Object.keys(mval).forEach(function (key) {
-            midata = calcol(mval[key], ival, a, g);
+        // alert(typeof(mal));
+        Object.keys(mal).forEach(function (key) {
+            console.log(key);
+            midata = calcol(mal[key], ival, a, g);
             mi[key] = midata;
         });
         Object.keys(mi).forEach(function (key) {
@@ -502,7 +500,7 @@ class GetData extends Component {
                 return [k, mi[key][k]]
             });
             items.sort(function (first, second) {
-                return second[1]['z'] - first[1]['z'];
+                return second[1]['y'] - first[1]['y'];
             });
             mi[key] = items;
         });
@@ -517,6 +515,7 @@ class GetData extends Component {
                     else {
                         if (!ibusy[mi[key][k][1]['interceptor']]) {
                             destroydata[key] = mi[key][k][1];
+                            destroydata[key]["a"] = a;
                             done = 1;
                             ibusy[mi[key][k][1]['interceptor']] = true;
                         }
@@ -527,10 +526,9 @@ class GetData extends Component {
                 destroydata[key] = { "didcollide": false };
             }
         });
+        console.log("ashdnaksdmasmd;las,", destroydata);
         return (destroydata);
     }
-
-
     render() {
         let tempstate = { ...this.state };
         // console.log(tempstate);
