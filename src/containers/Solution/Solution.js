@@ -22,22 +22,25 @@ class Solution extends Component {
 
 
     componentDidMount() {
-        console.log(this.props.hehe);
+        // console.log(this.props.hehe);
         let missobj = this.props.hehe;
         this.setState({ hola: this.props.hehe });
 
-        console.log("forloop", missobj);
+        // console.log("forloop", missobj);
         let str = "";
         for (let i = 0; i < missobj.interceptors; i++) {
-            console.log(missobj.interArray[i]);
+            // console.log(missobj.interArray[i]);
             str.concat(<tr>{missobj.interceptors}</tr>);
         }
         this.rows = str;
     }
 
     getRows = (e) => {
-        console.log(this.props.hehe.dd);
-        
+        // console.log(this.props.hehe.dd);
+
+    }
+    refrr = () => {
+        document.location.reload();
     }
     render() {
 
@@ -45,12 +48,27 @@ class Solution extends Component {
         //     const Solution = props =>{
         //         console.log(props);
         console.log(this.state.hola);
-
+        if (this.props.hehe) {
+            let arr = this.props.hehe;
+            var points, onerow, onecell;
+            var noofrows = Object.keys(arr.dd);
+            onerow = noofrows.map((r) => {
+                points = Object.values(arr.dd[r]);
+                onecell = points.map((t) =>
+                    {
+                    console.log({t});
+                    return <td>{t}</td>;
+                });
+                console.log(onecell);
+                return <tr>{onecell}</tr>;
+            });
+            console.log(onerow);
+        }
         return (
             <div >
                 <Header />
                 <div className={classes.bodydiv}>
-                    <Link to="/main" ><p className={classes.goback}>Go Back</p></Link>
+                    <p className={classes.goback} onClick={this.refrr}>Go Back</p>
                     {/* <div className={classes.divider}>
                     <div className={classes.div1}> */}
                     <div>Solution</div>
@@ -65,15 +83,22 @@ class Solution extends Component {
                             <td>Expected Φ</td>
                             <td>Interceptor ID</td>
                         </thead>
-                <tbody ></tbody>
-                    </table>                  
-                   
+                        <tbody >{onerow}</tbody>
+                    </table>
                 </div>
-                <ThreeAnim hehe={this.props.hehe}/>
-            </div>
+                <ThreeAnim hehe={this.props.hehe} />
+            </div >
 
 
         );
     }
 }
 export default Solution;
+
+// var names = ['Jake', 'Jon', 'Thruster'];
+// var namesList = names.map(function(name){
+//                 return <li>{name}</li>;
+//               })
+
+// return  <ul>{ namesList }</ul>
+// }
