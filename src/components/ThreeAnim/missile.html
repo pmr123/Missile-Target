@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+		<!DOCTYPE html>
 	<html>
 	<head>
 		<title>Project</title>
@@ -24,6 +24,8 @@
 
 			var thita_ballistic,phi_ballistic,thita_antiballistic,phi_antiballistic,time=0,velocity_ballistic,velocity_antiballistic;
 			var antiballposz,antiballposx,antiballposx,ballposz,ballposx,ballposy;
+			var missiles_anti=[];
+			var missiles_ballistic=[];
 			antiballposx= 550;
 			antiballposy=-130;
 			antiballposz= 480;				
@@ -38,13 +40,38 @@
 			thita_antiballistic=Math.PI/4;
 			phi_antiballistic=Math.PI/4;
 
-			var antiballistic_data=[{t:"45",p:"45", x: "550", y: "-240", z: "480", V: "15"},
-								{t:"45",p:"45", x: "550", y: "-240", z: "-240", V: "15"},
-								{t:"45",p:"45", x: "1420", y: "-240", z: "480", V: "15"},
-								{t:"45",p:"45", x: "1420", y: "-240", z: "-240", V: "15"}]; 
+			var findin_data=[{x: 37.489880821494154,y: 96.99092311583709,z: 50.14586663416932,t: 1.1217072615433823,theta: 25.35288311813558,phi: 280.9080903335628,didcollide: true,interceptor: "2"}];
+
+			var antiballistic_data=[{x: "550", y: "-240", z: "480", V: "15"},
+								{x: "550", y: "-240", z: "-240", V: "15"},
+								{x: "960", y: "-240", z: "480", V: "15"},
+								{x: "1420", y: "-240", z: "-240", V: "15"}]; 
+
+			var ballistic_data=[{t:"45",p:"45", x: "550", y: "-180", z: "2960", V: "15"},
+								{t:"-45",p:"45", x: "650", y: "-240", z: "2960", V: "15"},
+								{t:"45",p:"45", x: "850", y: "-240", z: "2960", V: "15"},
+								{t:"45",p:"45", x: "950", y: "-240", z: "2960", V: "15"}]; 
+
+			var fetch_theta,fetch_phi;
+			var modified_antiballistic={};
+			var tempobj={};
+			var i,j;
+			for (i = 0; i < antiballistic_data.length; i++) {
+				for (j = 0; j < findin_data.length; j++) {
+					if (Number(findin_data[j].interceptor)==i) {
+						//console.log(i,j);
+						fetch_theta=findin_data[j].t;
+						fetch_phi=findin_data[j].phi;
+
+						modified_antiballistic[findin_data[j].interceptor] = {theta : fetch_theta,phi: fetch_phi,x: antiballistic_data[i].x, y:antiballistic_data[i].y,z:antiballistic_data[i].z,V:antiballistic_data[i].V};
+					}
+				}
+				
+			}
+
 
 			var camera, scene, renderer;
-			var objects = [];
+			
 			scene = new THREE.Scene();
 					scene.background = new THREE.Color( 0xcce0ff );
 					//scene.fog = new THREE.Fog( 0xcce0ff, 500, 10000 );
@@ -81,7 +108,7 @@
 					mesh.rotation.x = - Math.PI / 2;
 					mesh.receiveShadow = true;
 					scene.add( mesh );
-					objects.push( mesh );
+					// objects.push( mesh );
 
 					//roll-over
 					// var rollOverGeo = new THREE.BoxBufferGeometry( 50, 50, 50 );
@@ -172,113 +199,95 @@
 					    scene.add(text_x);
 					})
 
+					var index=0;
+					var gltfloader = new THREE.GLTFLoader();
+					var anti_ballistic=new THREE.GLTFLoader();
+					var anti_ball,interceptor;
+
 					function place_interceptors(antiballistic_data) {
-
-
-						for (var i = 0; i <antiballistic_data.length; i++) {
+						
+						if(index>antiballistic_data.length-1) return 
 
 						
-
+						var single_antiballistic=antiballistic_data[index];
+						//console.log(single_antiballistic,index);
 							//interceptors
-							var gltfloader = new THREE.GLTFLoader();
+							
 							gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-								var interceptor=gltf.scene;
+								interceptor=gltf.scene;
 								interceptor.scale.set(13,13,13);
-								interceptor.position.set(Number(antiballistic_data[i].x),Number(antiballistic_data[i].y),Number(antiballistic_data[i].x));
+								interceptor.position.set(Number(single_antiballistic.x),Number(single_antiballistic.y),Number(single_antiballistic.z));
 								interceptor.rotation.y=Math.PI;
 								scene.add(interceptor);
 							});
 
 							//anti_ballistic
-						var anti_ballistic=new THREE.GLTFLoader();
-						anti_ballistic.load('models/anti_ballistic/scene.gltf',(gltf)=>{
-						anti_ball=gltf.scene;
-						anti_ball.scale.set(70,70,70);
-						anti_ball.rotation.z=phi_antiballistic;
-						anti_ball.rotation.x=Math.PI-thita_antiballistic;
-						anti_ball.position.set(Number(antiballistic_data[i].x),Number(antiballistic_data[i].y),Number(antiballistic_data[i].x));
-						// interceptor.rotation.x=- Math.PI / 2;
-						scene.add(anti_ball);
-					});
-						}
+							
+							
+							anti_ballistic.load('models/anti_ballistic/scene.gltf',(gltf)=>{
+							anti_ball=gltf.scene;
+							anti_ball.scale.set(70,70,70);
+							anti_ball.rotation.z=Math.PI;
+							anti_ball.rotation.x=Math.PI;
+							anti_ball.position.set(Number(single_antiballistic.x),Number(single_antiballistic.y)+80,Number(single_antiballistic.z));
+							anti_ball.rotation.y=Math.PI/2;
+							// interceptor.rotation.x=- Math.PI / 2;
+							scene.add(anti_ball);
+
+							missiles_anti.push(anti_ball);
+
+							index++;
+							place_interceptors(antiballistic_data);
+
+							});
+						
 					}
-
-					//interceptors
-					// var gltfloader = new THREE.GLTFLoader();
-					// gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-					// 	var interceptor=gltf.scene;
-					// 	interceptor.scale.set(13,13,13);
-					// 	interceptor.position.set(550,-240,480);
-					// 	interceptor.rotation.y=Math.PI;
-					// 	// interceptor.rotation.x=- Math.PI / 2;
-					// 	scene.add(interceptor);
-					// });
-
-					// var gltfloader = new THREE.GLTFLoader();
-					// gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-					// 	var interceptor=gltf.scene;
-					// 	interceptor.scale.set(13,13,13);
-					// 	interceptor.position.set(550,-240,-240);
-					// 	// interceptor.rotation.x=- Math.PI / 2;
-					// 	interceptor.rotation.y=Math.PI;
-					// 	scene.add(interceptor);
-					// });
-
-					// var gltfloader = new THREE.GLTFLoader();
-					// gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-					// 	var interceptor=gltf.scene;
-					// 	interceptor.scale.set(13,13,13);
-					// 	interceptor.position.set(1420,-240,480);
-					// 	// interceptor.rotation.x=- Math.PI / 2;
-					// 	interceptor.rotation.y=Math.PI;
-					// 	scene.add(interceptor);
-					// });
-
-					// var gltfloader = new THREE.GLTFLoader();
-					// gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
-					// 	var interceptor=gltf.scene;
-					// 	interceptor.scale.set(13,13,13);
-					// 	interceptor.position.set(1420,-240,-240);
-					// 	// interceptor.rotation.x=- Math.PI / 2;
-					// 	interceptor.rotation.y=Math.PI;
-					// 	scene.add(interceptor);
-					// });
 
 					var expo=new THREE.GLTFLoader();
 					expo.load('models/blast/scene.gltf',(gltf)=>{
 						expo=gltf.scene;
-						expo.scale.set(0,0,0);
+						//expo.scale.set(0,0,0);
 						// interceptor.rotation.x=- Math.PI / 2;
+						expo.visible=false;
 						scene.add(expo);
 					});
 
-					var anti_ball,ball;
+					var ball,index_ballistic=0;
 
 					//anti_ballistic
-					var anti_ballistic=new THREE.GLTFLoader();
-					anti_ballistic.load('models/anti_ballistic/scene.gltf',(gltf)=>{
-						anti_ball=gltf.scene;
-						anti_ball.scale.set(70,70,70);
-						anti_ball.rotation.z=phi_antiballistic;
-						anti_ball.rotation.x=Math.PI-thita_antiballistic;
-						anti_ball.position.set(550,-130,480);
-						// interceptor.rotation.x=- Math.PI / 2;
-						scene.add(anti_ball);
-					});
-
+					// var anti_ballistic=new THREE.GLTFLoader();
+					// anti_ballistic.load('models/anti_ballistic/scene.gltf',(gltf)=>{
+					// 	anti_ball=gltf.scene;
+					// 	anti_ball.scale.set(70,70,70);
+					// 	anti_ball.rotation.z=phi_antiballistic;
+					// 	anti_ball.rotation.x=Math.PI-thita_antiballistic;
+					// 	anti_ball.position.set(550,-130,480);
+					// 	// interceptor.rotation.x=- Math.PI / 2;
+					// 	scene.add(anti_ball);
+					// });
 					var ballistic=new THREE.GLTFLoader();
-					ballistic.load('models/ballistic_missile/scene.gltf',(gltf)=>{
+					function place_ballistic(ballistic_data) {
+						if (index_ballistic>ballistic_data.length-1) return
+
+						var single_ballistic=ballistic_data[index_ballistic];
+						//console.log(single_ballistic.x);
+						ballistic.load('models/ballistic_missile/scene.gltf',(gltf)=>{
 						ball=gltf.scene;
 						ball.scale.set(100,100,100);
-						ball.position.set(550,-180,2960);
-						ball.rotation.x=thita_ballistic;
-						ball.rotation.z=Math.PI-phi_ballistic;
+						ball.position.set(Number(single_ballistic.x),Number(single_ballistic.y)+80,Number(single_ballistic.z));
+						ball.rotation.x=single_ballistic.t;
+						ball.rotation.z=Math.PI-single_ballistic.p;
 						//console.log(ball);
 						// interceptor.rotation.x=- Math.PI / 2;
 						scene.add(ball);
-					});
+						index_ballistic++;
+						missiles_ballistic.push(ball);
+						place_ballistic(ballistic_data);
+					});	
+					}
 
-
+					place_interceptors(antiballistic_data);
+					place_ballistic(ballistic_data);
 
 					renderer = new THREE.WebGLRenderer( { antialias: true } );
 					renderer.setPixelRatio( window.devicePixelRatio );
@@ -310,7 +319,9 @@
 					window.addEventListener('click',()=>{
 						if(!firstclick){
 							firstclick=true;
-							animate();
+
+							animate_ballistic();
+							animate_antiballistic();
 						}
 					});
 					
@@ -327,27 +338,44 @@
 
 					render();
 
-
-					function animate() {
-						requestAnimationFrame(animate);
-
-						var data=antiballistic_data[0]
-						console.log(data.t);
-
-						if(ball.position.y>=-240){
-						time=time+0.01;
-						ball.position.y+=velocity_ballistic*Math.sin(thita_ballistic)*time-((gravity*time*time)/2);
-						ball.position.x+=velocity_ballistic*Math.cos(thita_ballistic)*Math.cos(phi_ballistic)*time;
-						ball.position.z+=velocity_ballistic*Math.cos(thita_ballistic)*Math.sin(phi_ballistic)*time;
-						ball.rotation.z-=0.005;
+					
+					function animate_ballistic(indexOfballistic) {
+						//console.log(missiles_ballistic,ballistic_data);
+						requestAnimationFrame(animate_ballistic);
+						var missiles_obj=missiles_ballistic[0];
+						var single_ballistic=ballistic_data[0];
 						
-						anti_ball.position.y+=velocity_antiballistic*Math.sin(thita_antiballistic)*time-((gravity*time*time)/2);
-						anti_ball.position.x+=velocity_antiballistic*Math.cos(thita_antiballistic)*Math.cos(phi_antiballistic)*time;
-						anti_ball.position.z+=velocity_antiballistic*Math.cos(thita_antiballistic)*Math.sin(phi_antiballistic)*time;
-						anti_ball.rotation.x-=0.005;
-
+						
+						if(missiles_obj.position.y>=-240){
+						time=time+0.01;
+						missiles_obj.position.y+=single_ballistic.V*Math.sin(single_ballistic.t)*time-((gravity*time*time)/2);
+						missiles_obj.position.x+=single_ballistic.V*Math.cos(single_ballistic.t)*Math.cos(single_ballistic.p)*time;
+						missiles_obj.position.z+=single_ballistic.V*Math.cos(single_ballistic.t)*Math.sin(single_ballistic.p)*time;
+						missiles_obj.rotation.z-=0.005;
+						//console.log(missiles_obj.position.x,missiles_obj.position.y,missiles_obj.position.z)
 						}
 
+					}
+
+					// alphatime=0.1;
+					var antitime=0;
+					function animate_antiballistic() {
+						requestAnimationFrame(animate_antiballistic);
+						var antimissiles_obj=missiles_anti[2];
+						//console.log(antimi0ssiles_obj);
+						var single_antiballistic=modified_antiballistic[2];
+						//console.log(single_antiballistic);	
+
+						//console.log(antimissiles_obj.position.x,antimissiles_obj.position.y,antimissiles_obj.position.z);4
+						//console.log(single_antiballistic.x,single_antiballistic.y,single_antiballistic.z,single_antiballistic.t,single_antiballistic.p);
+						if(antimissiles_obj.position.y>=-240){
+						antitime=antitime+0.01;
+						antimissiles_obj.position.y+=single_antiballistic.V*Math.sin(single_antiballistic.theta)*antitime-((gravity*antitime*antitime)/2);
+						antimissiles_obj.position.x+=single_antiballistic.V*Math.cos(single_antiballistic.theta)*Math.cos(single_antiballistic.phi)*antitime;
+						antimissiles_obj.position.z+=single_antiballistic.V*Math.cos(single_antiballistic.theta)*Math.sin(single_antiballistic.phi)*antitime;
+						antimissiles_obj.rotation.z-=0.005;
+						// console.log(antimissiles_obj.position.x,antimissiles_obj.antiposition.y,antimissiles_obj.position.z)
+						}
 					}
 
 		</script>
