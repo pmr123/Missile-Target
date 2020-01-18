@@ -174,9 +174,8 @@ class ThreeAnim extends Component {
 
 
     // }
-
     componentDidMount() {
-
+        console.log("Worked");
         var thita, phi;
         var camera, scene, renderer;
         var objects = [];
@@ -502,23 +501,12 @@ class ThreeAnim extends Component {
                     explosion.visible = false;
                 }
             }
-
-
-
-
         }
-
-
-
-
-
     }
-
     render() {
         return (
             <div ref={ref => (this.mount) = ref} ></div>
         );
     }
 }
-
 export default ThreeAnim;

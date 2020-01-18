@@ -6,30 +6,25 @@ import FormM from '../../components/FormM/FormM';
 import FormI from '../../components/FormI/FormI';
 import Header from '../../components/Header/Header';
 import Solution from '../../containers/Solution/Solution';
+import ThreeAnim from '../ThreeAnim/ThreeAnim';
 
 class GetData extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            missiles: 1,
+            interceptors: 1,
+            missArray: [],
+            interArray: [],
+            mval: [],
+            ival: [], 
+            answerArray: {},
+        };
+        this.flag = 1;
+        
     }
 
-
-
-    state = {
-        missiles: 0,
-        interceptors: 0,
-        missArray: [],
-        interArray: [],
-        mval: [],
-        ival: [], 
-        answerArray: {}
-    };
-
-
-    componentWillUnmount(){
-        this.findin(this.state.mval, this.state.ival, 0, 0);
-        this.setState({answerArray: {...this.state}});
-    }
     addformhandler = (e) => {
         var missiles = this.state.missiles + 1;
         // var interceptors = this.state.interceptors + 1;
@@ -107,9 +102,14 @@ class GetData extends Component {
             }
             i += 1;
         });
-        this.props.history.push('/sol');
+        // this.props.history.push('/sol');
 
-        // e.preventDefault();
+        // this.setState({flag:0});
+        this.flag=0;
+        let dd = this.findin(this.state.mval, this.state.ival, 0, 0);
+        this.setState({dd: dd});
+        console.log(dd);
+        e.preventDefault();
     }
     csvUpload1(csvText) {
         //Split all the text into seperate lines on new lines and carriage return feeds
@@ -173,7 +173,14 @@ class GetData extends Component {
         }.bind(this);
         
     }
-    handleChange = () => {
+    submitted2 = (e) => {
+        // this.setState({flag:0});
+        this.flag=0;
+        let dd = this.findin(this.state.mval, this.state.ival, 0, 0);
+        this.setState({dd: dd});
+        console.log(dd, this.state.dd);
+        e.preventDefault();
+
     }
 
     // submitForms = (e) => {
@@ -193,315 +200,345 @@ class GetData extends Component {
     }
 
 
-    calcol(mdata, ival, a, g) {
+     calcol(mdata,ival,a,g){
         //data of missile
-        var  j, k;
-
-        var vm = parseFloat(mdata["V"]);
+        var j;
+        var vm = parseFloat(mdata["V"]); 
         var qm = parseFloat(mdata["t"]);
         var fm = parseFloat(mdata["p"]);
         var xm = parseFloat(mdata["x"]);
         var ym = parseFloat(mdata["y"]);
         var zm = parseFloat(mdata["z"]);
         var out = {};
-        for (j = 0; j < Object.keys(ival).length; j++) {
+        Object.keys(ival).forEach(function(key) {
             //data of interceptor
-            var vi = parseFloat(ival[j]["V"]);
-            var xi = parseFloat(ival[j]["x"]);
-            var yi = parseFloat(ival[j]["y"]);
-            var zi = parseFloat(ival[j]["z"]);
+            var vi = parseFloat(ival[key]["V"]);
+            var xi = parseFloat(ival[key]["x"]);
+            var yi = parseFloat(ival[key]["y"]);
+            var zi = parseFloat(ival[key]["z"]);
             //Quadratic equation for t
-            var ta = (vm * vm) + (g * g * a * a) - (g * vm * a * Math.sin(Math.PI * qm / 180)) - (vi * vi);
-            var tb = (2 * a * vm * vm) + (2 * vm * (Math.cos(Math.PI * qm / 180) * (Math.cos(Math.PI * fm / 180) * (xm - xi) + Math.sin(Math.PI * fm / 180) * (zm - zi)) + Math.sin(Math.PI * qm / 180) * (ym - yi))) + (g * g * a * a * a) - (3 * g * vm * a * a * Math.sin(Math.PI * qm / 180)) - (2 * g * a * (ym - yi));
-            var tc = (vm * vm * a * a) + (2 * vm * a * (Math.cos(Math.PI * qm / 180) * (Math.cos(Math.PI * fm / 180) * (xm - xi) + Math.sin(Math.PI * fm / 180) * (zm - zi)) + Math.sin(Math.PI * qm / 180) * (ym - yi))) + (xm - xi) * (xm - xi) + (ym - yi) * (ym - yi) + (zm - zi) * (zm - zi) + (g * g * a * a * a * a / 4) - (g * vm * a * a * a * Math.sin(Math.PI * qm / 180)) - (g * a * a * (ym - yi));
+            var ta = (vm*vm) + (g*g*a*a) - (g*vm*a*Math.sin(Math.PI*qm/180)) - (vi*vi);
+            var tb = (2*a*vm*vm) + (2*vm*(Math.cos(Math.PI*qm/180)*(Math.cos(Math.PI*fm/180)*(xm-xi) + Math.sin(Math.PI*fm/180)*(zm-zi)) + Math.sin(Math.PI*qm/180)*(ym-yi))) + (g*g*a*a*a) - (3*g*vm*a*a*Math.sin(Math.PI*qm/180)) - (2*g*a*(ym-yi));
+            var tc = (vm*vm*a*a) + (2*vm*a*(Math.cos(Math.PI*qm/180)*(Math.cos(Math.PI*fm/180)*(xm-xi) + Math.sin(Math.PI*fm/180)*(zm-zi)) + Math.sin(Math.PI*qm/180)*(ym-yi))) + (xm-xi)*(xm-xi) + (ym-yi)*(ym-yi) + (zm-zi)*(zm-zi) + (g*g*a*a*a*a/4) - (g*vm*a*a*a*Math.sin(Math.PI*qm/180)) - (g*a*a*(ym-yi));
             var type = -1;
-            if (ta != 0) {
-                var d = tb * tb - 4 * ta * tc;
+            if(ta != 0){
+                var d = tb*tb - 4*ta*tc;
                 var root1;
                 var root2;
-                if (d >= 0) {
-                    root1 = (-tb + Math.sqrt(d)) / (2 * ta);
-                    root2 = (-tb - Math.sqrt(d)) / (2 * ta);
-                    if (root1 * root2 < 0) {
+                if(d >= 0){
+                    root1 = (-tb + Math.sqrt(d))/(2*ta);
+                    root2 = (-tb - Math.sqrt(d))/(2*ta);
+                    if(root1*root2 < 0){
                         type = 0;
-                        var x1 = (xm + (vm * Math.cos(Math.PI * qm / 180) * Math.cos(Math.PI * fm / 180) * (root1 + a)));
-                        var y1 = (ym + (vm * (root1 + a) * Math.sin(Math.PI * qm / 180)) - (g * (root1 + a) * (root1 + a) / 2));
-                        var z1 = (zm + (vm * Math.cos(Math.PI * qm / 180) * Math.sin(Math.PI * fm / 180) * (root1 + a)));
-                        var q1 = Math.asin(((y1 - yi) + (g * (root1 + a) * (root1 + a) / 2)) / (vi * (root1 + a))) * 180 / Math.PI;
-                        var dz = z1 - zi;
-                        var dx = x1 - xi;
-                        var f1 = Math.atan(Math.abs(dz) / Math.abs(dx)) * 180 / Math.PI;;
-                        if (dz >= 0 && dx < 0) {
+                        var x1 = (xm+(vm*Math.cos(Math.PI*qm/180)*Math.cos(Math.PI*fm/180)*(root1 + a)));
+                        var y1 = (ym+(vm*(root1+a)*Math.sin(Math.PI*qm/180))-(g*(root1+a)*(root1+a)/2));
+                        var z1 = (zm+(vm*Math.cos(Math.PI*qm/180)*Math.sin(Math.PI*fm/180)*(root1 + a)));
+                        var q1 = Math.asin(((y1-yi)+(g*(root1+a)*(root1+a)/2))/(vi*(root1+a)))*180/Math.PI;
+                        var dz = z1-zi;
+                        var dx = x1-xi;
+                        var f1 = Math.atan(Math.abs(dz)/Math.abs(dx))*180/Math.PI;;
+                        if(dz >=0 && dx < 0){
                             f1 = 180 - f1;
                         }
-                        else if (dz < 0 && dx < 0) {
+                        else if(dz <0 && dx < 0){
                             f1 = 180 + f1;
                         }
-                        else if (dz < 0 && dx >= 0) {
+                        else if(dz < 0 && dx >= 0){
                             f1 = 360 - f1;
                         }
-                        var x2 = (xm + (vm * Math.cos(Math.PI * qm / 180) * Math.cos(Math.PI * fm / 180) * (root2 + a)));
-                        var y2 = (ym + (vm * (root2 + a) * Math.sin(Math.PI * qm / 180)) - (g * (root2 + a) * (root2 + a) / 2));
-                        var z2 = (zm + (vm * Math.cos(Math.PI * qm / 180) * Math.sin(Math.PI * fm / 180) * (root2 + a)));
-                        var q2 = Math.asin(((y2 - yi) + (g * (root2 + a) * (root2 + a) / 2)) / (vi * (root2 + a))) * 180 / Math.PI;
-                        dz = z2 - zi;
-                        dx = x2 - xi;
-                        var f2 = Math.atan(Math.abs(dz) / Math.abs(dx)) * 180 / Math.PI;;
-                        if (dz >= 0 && dx < 0) {
+                        var x2 = (xm+(vm*Math.cos(Math.PI*qm/180)*Math.cos(Math.PI*fm/180)*(root2 + a)));
+                        var y2 = (ym+(vm*(root2+a)*Math.sin(Math.PI*qm/180))-(g*(root2+a)*(root2+a)/2));
+                        var z2 = (zm+(vm*Math.cos(Math.PI*qm/180)*Math.sin(Math.PI*fm/180)*(root2 + a)));
+                        var q2 = Math.asin(((y2-yi)+(g*(root2+a)*(root2+a)/2))/(vi*(root2+a)))*180/Math.PI;
+                        var dz = z2-zi;
+                        var dx = x2-xi;
+                        var f2 = Math.atan(Math.abs(dz)/Math.abs(dx))*180/Math.PI;;
+                        if(dz >=0 && dx < 0){
                             f2 = 180 - f2;
                         }
-                        else if (dz < 0 && dx < 0) {
+                        else if(dz <0 && dx < 0){
                             f2 = 180 + f2;
                         }
-                        else if (dz < 0 && dx >= 0) {
+                        else if(dz < 0 && dx >= 0){
                             f2 = 360 - f2;
                         }
                     }
-                    if (root1 >= 0 && root2 >= 0) {
+                    if(root1 >= 0 && root2 >= 0){
                         type = 3;
-                        var x1 = (xm + (vm * Math.cos(Math.PI * qm / 180) * Math.cos(Math.PI * fm / 180) * (root1 + a)));
-                        var y1 = (ym + (vm * (root1 + a) * Math.sin(Math.PI * qm / 180)) - (g * (root1 + a) * (root1 + a) / 2));
-                        var z1 = (zm + (vm * Math.cos(Math.PI * qm / 180) * Math.sin(Math.PI * fm / 180) * (root1 + a)));
-                        var q1 = Math.asin(((y1 - ym) + (g * (root1 + a) * (root1 + a) / 2)) / (vm * (root1 + a))) * 180 / Math.PI;
-                        var dz = z1 - zi;
-                        var dx = x1 - xi;
-                        var f1 = Math.atan(Math.abs(dz) / Math.abs(dx)) * 180 / Math.PI;;
-                        if (dz >= 0 && dx < 0) {
+                        var x1 = (xm+(vm*Math.cos(Math.PI*qm/180)*Math.cos(Math.PI*fm/180)*(root1 + a)));
+                        var y1 = (ym+(vm*(root1+a)*Math.sin(Math.PI*qm/180))-(g*(root1+a)*(root1+a)/2));
+                        var z1 = (zm+(vm*Math.cos(Math.PI*qm/180)*Math.sin(Math.PI*fm/180)*(root1 + a)));
+                        var q1 = Math.asin(((y1-ym)+(g*(root1+a)*(root1+a)/2))/(vm*(root1+a)))*180/Math.PI;
+                        var dz = z1-zi;
+                        var dx = x1-xi;
+                        var f1 = Math.atan(Math.abs(dz)/Math.abs(dx))*180/Math.PI;;
+                        if(dz >=0 && dx < 0){
                             f1 = 180 - f1;
                         }
-                        else if (dz < 0 && dx < 0) {
+                        else if(dz <0 && dx < 0){
                             f1 = 180 + f1;
                         }
-                        else if (dz < 0 && dx >= 0) {
+                        else if(dz < 0 && dx >= 0){
                             f1 = 360 - f1;
                         }
-                        var x2 = (xm + (vm * Math.cos(Math.PI * qm / 180) * Math.cos(Math.PI * fm / 180) * (root2 + a)));
-                        var y2 = (ym + (vm * (root2 + a) * Math.sin(Math.PI * qm / 180)) - (g * (root2 + a) * (root2 + a) / 2));
-                        var z2 = (zm + (vm * Math.cos(Math.PI * qm / 180) * Math.sin(Math.PI * fm / 180) * (root2 + a)));
-                        var q2 = Math.asin(((y2 - ym) + (g * (root2 + a) * (root2 + a) / 2)) / (vm * (root2 + a))) * 180 / Math.PI;
-                        dz = z2 - zi;
-                        dx = x2 - xi;
-                        var f2 = Math.atan(Math.abs(dz) / Math.abs(dx)) * 180 / Math.PI;;
-                        if (dz >= 0 && dx < 0) {
+                        var x2 = (xm+(vm*Math.cos(Math.PI*qm/180)*Math.cos(Math.PI*fm/180)*(root2 + a)));
+                        var y2 = (ym+(vm*(root2+a)*Math.sin(Math.PI*qm/180))-(g*(root2+a)*(root2+a)/2));
+                        var z2 = (zm+(vm*Math.cos(Math.PI*qm/180)*Math.sin(Math.PI*fm/180)*(root2 + a)));
+                        var q2 = Math.asin(((y2-ym)+(g*(root2+a)*(root2+a)/2))/(vm*(root2+a)))*180/Math.PI;
+                        var dz = z2-zi;
+                        var dx = x2-xi;
+                        var f2 = Math.atan(Math.abs(dz)/Math.abs(dx))*180/Math.PI;;
+                        if(dz >=0 && dx < 0){
                             f2 = 180 - f2;
                         }
-                        else if (dz < 0 && dx < 0) {
+                        else if(dz <0 && dx < 0){
                             f2 = 180 + f2;
                         }
-                        else if (dz < 0 && dx >= 0) {
+                        else if(dz < 0 && dx >= 0){
                             f2 = 360 - f2;
                         }
                     }
                 }
-                else {
-                    root1 = (-tb) / (2 * ta) + " + i" + Math.sqrt(-d) / (2 * ta);
-                    root2 = (-tb) / (2 * ta) + " - i" + Math.sqrt(-d) / (2 * ta);
+                else{
+                    root1 = (-tb)/(2*ta) + " + i" + Math.sqrt(-d)/(2*ta);
+                    root2 = (-tb)/(2*ta) + " - i" + Math.sqrt(-d)/(2*ta);
                     type = 1;
                 }
             }
-            else {
-                root1 = -tc / tb;
-                root2 = -tc / tb;
+            else{
+                root1 = -tc/tb;
+                root2 = -tc/tb;
                 type = 2;
-                var x1 = (xm + (vm * Math.cos(Math.PI * qm / 180) * Math.cos(Math.PI * fm / 180) * (root1 + a)));
-                var y1 = (ym + (vm * (root1 + a) * Math.sin(Math.PI * qm / 180)) - (g * (root1 + a) * (root1 + a) / 2));
-                var z1 = (zm + (vm * Math.cos(Math.PI * qm / 180) * Math.sin(Math.PI * fm / 180) * (root1 + a)));
-                var q1 = Math.asin(((y1 - ym) + (g * (root1 + a) * (root1 + a) / 2)) / (vm * (root1 + a))) * 180 / Math.PI;
-                var dz = z1 - zi;
-                var dx = x1 - xi;
-                var f1 = Math.atan(Math.abs(dz) / Math.abs(dx)) * 180 / Math.PI;;
-                if (dz >= 0 && dx < 0) {
+                var x1 = (xm+(vm*Math.cos(Math.PI*qm/180)*Math.cos(Math.PI*fm/180)*(root1 + a)));
+                var y1 = (ym+(vm*(root1+a)*Math.sin(Math.PI*qm/180))-(g*(root1+a)*(root1+a)/2));
+                var z1 = (zm+(vm*Math.cos(Math.PI*qm/180)*Math.sin(Math.PI*fm/180)*(root1 + a)));
+                var q1 = Math.asin(((y1-ym)+(g*(root1+a)*(root1+a)/2))/(vm*(root1+a)))*180/Math.PI;
+                var dz = z1-zi;
+                var dx = x1-xi;
+                var f1 = Math.atan(Math.abs(dz)/Math.abs(dx))*180/Math.PI;;
+                if(dz >=0 && dx < 0){
                     f1 = 180 - f1;
                 }
-                else if (dz < 0 && dx < 0) {
+                else if(dz <0 && dx < 0){
                     f1 = 180 + f1;
                 }
-                else if (dz < 0 && dx >= 0) {
+                else if(dz < 0 && dx >= 0){
                     f1 = 360 - f1;
                 }
-                var x2 = (xm + (vm * Math.cos(Math.PI * qm / 180) * Math.cos(Math.PI * fm / 180) * (root2 + a)));
-                var y2 = (ym + (vm * (root2 + a) * Math.sin(Math.PI * qm / 180)) - (g * (root2 + a) * (root2 + a) / 2));
-                var z2 = (zm + (vm * Math.cos(Math.PI * qm / 180) * Math.sin(Math.PI * fm / 180) * (root2 + a)));
-                var q2 = Math.asin(((y2 - ym) + (g * (root2 + a) * (root2 + a) / 2)) / (vm * (root2 + a))) * 180 / Math.PI;
-                var dz = z2 - zi;
-                var dx = x2 - xi;
-                var f2 = Math.atan(Math.abs(dz) / Math.abs(dx)) * 180 / Math.PI;;
-                if (dz >= 0 && dx < 0) {
+                var x2 = (xm+(vm*Math.cos(Math.PI*qm/180)*Math.cos(Math.PI*fm/180)*(root2 + a)));
+                var y2 = (ym+(vm*(root2+a)*Math.sin(Math.PI*qm/180))-(g*(root2+a)*(root2+a)/2));
+                var z2 = (zm+(vm*Math.cos(Math.PI*qm/180)*Math.sin(Math.PI*fm/180)*(root2 + a)));
+                var q2 = Math.asin(((y2-ym)+(g*(root2+a)*(root2+a)/2))/(vm*(root2+a)))*180/Math.PI;
+                var dz = z2-zi;
+                var dx = x2-xi;
+                var f2 = Math.atan(Math.abs(dz)/Math.abs(dx))*180/Math.PI;;
+                if(dz >=0 && dx < 0){
                     f2 = 180 - f2;
                 }
-                else if (dz < 0 && dx < 0) {
+                else if(dz <0 && dx < 0){
                     f2 = 180 + f2;
                 }
-                else if (dz < 0 && dx >= 0) {
+                else if(dz < 0 && dx >= 0){
                     f2 = 360 - f2;
                 }
             }
-            if (type == 0) {//root1*root2 < 0
-                if (root1 > 0) {
-                    if (z1 > 0) {
-                        out[j] = {
-                            'x': x1,
-                            'y': y1,
-                            'z': z1,
-                            't': root1,
-                            'theta': q1,
-                            'phi': f1,
-                            'didcollide': true
+            if(type==0){//root1*root2 < 0
+                if(root1>0){
+                    if(z1>0){
+                        out[key] = {
+                            'x' : x1,
+                            'y' : y1,
+                            'z' : z1,
+                            't' : root1,
+                            'theta' : q1,
+                            'phi' : f1,
+                            'didcollide' : true
                         }
                     }
-                    else {
-                        out[j] = {
-                            'didcollide': false
-                        }
-                    }
-                }
-                else {
-                    if (z2 > 0) {
-                        out[j] = {
-                            'x': x2,
-                            'y': y2,
-                            'z': z2,
-                            't': root2,
-                            'theta': q2,
-                            'phi': f2,
-                            'didcollide': true
-                        }
-                    }
-                    else {
-                        out[j] = {
-                            'didcollide': false
+                    else{
+                        out[key] = {
+                            'didcollide' : false
                         }
                     }
                 }
-            }
-            else if (type == 1) { //img roots
-                out[j] = {
-                    'didcollide': false
+                else{
+                    if(z2>0){
+                        out[key] = {
+                            'x' : x2,
+                            'y' : y2,
+                            'z' : z2,
+                            't' : root2,
+                            'theta' : q2,
+                            'phi' : f2,
+                            'didcollide' : true
+                        }
+                    }
+                    else{
+                        out[key] = {
+                            'didcollide' : false
+                        }
+                    }                                                        
                 }
             }
-            else if (type == 2) { //ta = 0
-                if (root1 > 0) {
-                    if (z1 > 0) {
+            else if(type==1){ //img roots
+                out[key] = {
+                            'didcollide' : false
+                        }
+            }
+            else if(type==2){ //ta = 0
+                if(root1>0){
+                    if(z1>0){
                         out[j] = {
-                            'x': x1,
-                            'y': y1,
-                            'z': z1,
-                            't': root1,
-                            'theta': q1,
-                            'phi': f1,
-                            'didcollide': true
+                            'x' : x1,
+                            'y' : y1,
+                            'z' : z1,
+                            't' : root1,
+                            'theta' : q1,
+                            'phi' : f1,
+                            'didcollide' : true
                         }
                     }
-                    else {
-                        out[j] = {
-                            'didcollide': false
+                    else{
+                        out[key] = {
+                            'didcollide' : false
                         }
                     }
                 }
-                else {
-                    if (z2 > 0) {
-                        out[j] = {
-                            'x': x2,
-                            'y': y2,
-                            'z': z2,
-                            't': root2,
-                            'theta': q2,
-                            'phi': f2,
-                            'didcollide': true
+                else{
+                    if(z2>0){
+                        out[key] = {
+                            'x' : x2,
+                            'y' : y2,
+                            'z' : z2,
+                            't' : root2,
+                            'theta' : q2,
+                            'phi' : f2,
+                            'didcollide' : true
                         }
                     }
-                    else {
-                        out[j] = {
-                            'didcollide': false
+                    else{
+                        out[key] = {
+                            'didcollide' : false
                         }
-                    }
+                    }                                                        
                 }
             }
-            else if (type == 3) {// root1 and root2>=0
-                if (z1 >= z2) {
-                    if (z1 > 0) {
-                        out[j] = {
-                            'x': x1,
-                            'y': y1,
-                            'z': z1,
-                            't': root1,
-                            'theta': q1,
-                            'phi': f1,
-                            'didcollide': true
+            else if(type==3){// root1 and root2>=0
+                if(z1 >= z2){
+                    if(z1>0){
+                        out[key] = {
+                            'x' : x1,
+                            'y' : y1,
+                            'z' : z1,
+                            't' : root1,
+                            'theta' : q1,
+                            'phi' : f1,
+                            'didcollide' : true
                         }
                     }
-                    else {
-                        out[j] = {
-                            'didcollide': false
-                        }
-                    }
-                }
-                else {
-                    if (z2 > 0) {
-                        out[j] = {
-                            'x': x2,
-                            'y': y2,
-                            'z': z2,
-                            't': root2,
-                            'theta': q2,
-                            'phi': f2,
-                            'didcollide': true
-                        }
-                    }
-                    else {
-                        out[j] = {
-                            'didcollide': false
+                    else{
+                        out[key] = {
+                            'didcollide' : false
                         }
                     }
                 }
-            }
-            else if (type == -1) {
-                out[j] = {
-                    'didcollide': false
+                else{
+                    if(z2>0){
+                        out[key] = {
+                            'x' : x2,
+                            'y' : y2,
+                            'z' : z2,
+                            't' : root2,
+                            'theta' : q2,
+                            'phi' : f2,
+                            'didcollide' : true
+                        }
+                    }
+                    else{
+                        out[key] = {
+                            'didcollide' : false
+                        }
+                    }                                                        
                 }
             }
-        }
-        var ans = {};
-        for (k = 0; k < Object.keys(out).length; k++) {
-            if (out[k]['didcollide']) {
-                ans[k] = out[k];
-                ans[k]["interceptor"] = k;
-            }
-        }
-        var maxz = 0;
-        var it = -1;
-        Object.keys(ans).forEach(function (key) {
-            if (ans[key]['z'] > maxz) {
-                maxz = ans[key]['z'];
-                it = key;
+            else if(type==-1){
+                out[key] = {
+                            'didcollide' : false
+                        }
             }
         });
-        if (it != -1) {
-            return (ans[it]);
+        var ans = {};
+        Object.keys(out).forEach(function(key) {
+           if(out[key]['didcollide']){
+                ans[key] = out[key];
+                ans[key]["interceptor"] = key;
+            } 
+        });
+        if(Object.keys(ans).length>0){
+            return(ans);
         }
-        else {
-            return ({ 'didcollide': false })
+        else{
+            ans[-1] = {'didcollide':false}
+            return(ans);
         }
     }
-    findin(mval, ival, a, g) {
-        var mi = [], midata, i;        
-        for (i = 0; i < Object.keys(mval).length; i++) {
-            midata = this.calcol(mval[i], ival, a, g);
-            mi.push( midata);
-        }
-        console.log(mi);
-        
+     findin(mval,ival,a,g){
+        var calcol =this.calcol;
+        var ibusy = {} // tells which interceptor is busy
+        Object.keys(ival).forEach(function(key) {
+            ibusy[key] = false;
+        });
+        var destroydata = {}; //final dict to be returned
+        var mi = {};
+        var midata;
+        Object.keys(mval).forEach(function(key) {
+            midata = calcol(mval[key],ival,a,g);
+            mi[key] = midata;
+        });
+        Object.keys(mi).forEach(function(key) {
+            var items = Object.keys(mi[key]).map(function(k) {
+                return [k,mi[key][k]]
+            });
+            items.sort(function(first, second) {
+              return second[1]['z'] - first[1]['z'];
+            });
+            mi[key] = items;
+        });
+        Object.keys(mi).forEach(function(key) {
+            var done = 0;
+            Object.keys(mi[key]).forEach(function(k) {
+                if(done == 0){
+                    if(mi[key][k][0] == -1){
+                        destroydata[key] = {"didcollide":false};
+                        done = 1;
+                    }
+                    else{
+                        if(!ibusy[mi[key][k][1]['interceptor']]){
+                            destroydata[key] = mi[key][k][1];
+                            done = 1;
+                            ibusy[mi[key][k][1]['interceptor']] = true;
+                        }                            
+                    }
+                }
+            });
+            if(!(key in destroydata)){
+                destroydata[key] = {"didcollide":false};
+            }
+        });
+        return(destroydata);
     }
 
 
     render() {
         let tempstate=        {...this.state};
-        console.log(tempstate);
-        
+        // console.log(tempstate);
+        if(this.flag){
+            // console.log(tempstate.flag);
         return (
             <div>
                 <Header />
                 <div className={classes.InputDiv}>
+                    <img src="images/COORDS.jpeg" alt="Co-ordinate system" height="270px"></img>
                     <h4>Ballistic Missiles Targets</h4>
                     <form onSubmit={this.submitted1} >
                         <div id="missile">
@@ -522,7 +559,7 @@ class GetData extends Component {
 
                     </form>
                     <hr></hr>
-                    <form id="sec" className={classes.sec}>
+                    <form id="sec" onSubmit={this.submitted2} className={classes.sec}>
                         <h5>Or upload a CSV/JSON file in the following format: (...)</h5>
                         <label>
                             Missile Data JSON
@@ -535,11 +572,24 @@ class GetData extends Component {
                         <button type="submit" >Analyze</button>
                     </form>
                 </div>
-                <div className={classes.hidd}>
-                <Solution hehe={...this.state.answerArray}/>
-                </div>
+                {/* <div className={classes.hidd}>
+                <Solution hehe={this.state.dd} mval={tempstate.mval} ival={tempstate.ival}/>
+                </div> */}
             </div>
-        )
+        )}
+        else{
+            this.flag=1;
+            return(
+                <div>
+                    {/* <Header /> */}
+                    <Solution hehe={this.state}/>
+                    {/* <a href="/sim" target="_blank"><button >Simulate</button></a> */}
+               
+                </div>
+            )
+
+        }
+        
     }
 }
 export default GetData;

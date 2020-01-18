@@ -15,8 +15,10 @@ class App extends Component {
             {/* <GetData />
             <Solution /> */}
             <Route path="/" exact component={GetData} />
+            <Route path="/main" exact component={GetData} />
+
             <Route path="/sol" exact component={Solution} />
-            <Route path="/sim" exact component={ThreeAnim} />
+            {/* <Route path="/sim" exact component={ThreeAnim} /> */}
 
           </Switch>
           </BrowserRouter>
