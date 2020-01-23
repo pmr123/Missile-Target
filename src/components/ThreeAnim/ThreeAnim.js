@@ -10,7 +10,6 @@ class ThreeAnim extends Component {
    constructor(props){
        super(props);
     //    this.props = props.hehe;
-    //    console.log(this.props);   
    }
     componentDidMount(){
             
@@ -24,7 +23,6 @@ class ThreeAnim extends Component {
 			var findin_data=this.props.hehe.dd;
 			var antiballistic_data=this.props.hehe.ival; 
             var ballistic_data=this.props.hehe.mval;
-            // console.log(findin_data, antiballistic_data, ballistic_data);
 			var fetch_theta,fetch_phi;
 			var modified_antiballistic={};
 			var tempobj={};
@@ -43,21 +41,15 @@ class ThreeAnim extends Component {
 							fetch_phi=findin_data[j].phi;
 							modified_antiballistic[findin_data[j].interceptor] = {theta : fetch_theta,phi: fetch_phi,x: antiballistic_data[i].x, y:antiballistic_data[i].y,z:antiballistic_data[i].z,V:antiballistic_data[i].V};
 						}
-						
-
 				}
-				
 			}
-			console.log(findin_data, modified_antiballistic);
-
 			var camera, scene, renderer;
-			
 			scene = new THREE.Scene();
 					scene.background = new THREE.Color( 0xcce0ff );
 					//scene.fog = new THREE.Fog( 0xcce0ff, 500, 10000 );
 					// camera
-					camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
-					camera.position.set( -1400, 100, -1600 );
+					camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
+					camera.position.set( -325, 200, -400 );
 					// lights
 					scene.add( new THREE.AmbientLight( 0x666666 ) );
 					var light = new THREE.DirectionalLight( 0xdfebff, 1 );
@@ -83,7 +75,7 @@ class ThreeAnim extends Component {
 					groundTexture.encoding = THREE.sRGBEncoding;
 					var groundMaterial = new THREE.MeshLambertMaterial( { map: groundTexture } );
 					var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 10000, 10000 ), groundMaterial );
-					mesh.position.y = - 250;
+					mesh.position.y = -20;
 					mesh.rotation.x = - Math.PI / 2;
 					mesh.receiveShadow = true;
 					scene.add( mesh );
@@ -99,30 +91,30 @@ class ThreeAnim extends Component {
 					var gridgeo = new THREE.PlaneGeometry(1000,1000);
 					var gridmaterial = new THREE.MeshBasicMaterial( {color: 0x964B00, side: THREE.DoubleSide} );
 					var gridplane = new THREE.Mesh( gridgeo, gridmaterial );
-					gridplane.position.set(1000,-240,100);
+					gridplane.position.set(500,0,500);
 					gridplane.rotation.x=- Math.PI / 2;
 					scene.add( gridplane );
 
 					//axis lines
 					var linegeometry_x = new THREE.Geometry();
-					linegeometry_x.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
-					linegeometry_x.vertices.push(new THREE.Vector3(820, -240, -400));
+					linegeometry_x.vertices.push(new THREE.Vector3(0, 0, 0)); //500,-240,-400
+					linegeometry_x.vertices.push(new THREE.Vector3(200, 0, 0));
 					/* linewidth on windows will always be 1 */
 					var linematerial_x = new THREE.LineBasicMaterial( { color: 0xffff00, linewidth: 200 } );
 					var line_x = new THREE.Line(linegeometry_x, linematerial_x);
 					scene.add(line_x);
 
 					var linegeometry_y = new THREE.Geometry();
-					linegeometry_y.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
-					linegeometry_y.vertices.push(new THREE.Vector3(500, -50, -400));
+					linegeometry_y.vertices.push(new THREE.Vector3(0, 0, 0)); //x, y, z
+					linegeometry_y.vertices.push(new THREE.Vector3(0, 200, 0));
 					/* linewidth on windows will always be 1 */
 					var linematerial_y = new THREE.LineBasicMaterial( { color: 0xffff00, linewidth: 200 } );
 					var line_y = new THREE.Line(linegeometry_y, linematerial_y);
 					scene.add(line_y);
 
 					var linegeometry_z = new THREE.Geometry();
-					linegeometry_z.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
-					linegeometry_z.vertices.push(new THREE.Vector3(500, -240, -300));
+					linegeometry_z.vertices.push(new THREE.Vector3(0, 0, 0)); //x, y, z
+					linegeometry_z.vertices.push(new THREE.Vector3(0, 0, 200));
 					/* linewidth on windows will always be 1 */
 					var linematerial_z = new THREE.LineBasicMaterial( { color: 0xffff00, linewidth: 200 } );
 					var line_z = new THREE.Line(linegeometry_z, linematerial_z);
@@ -141,7 +133,7 @@ class ThreeAnim extends Component {
 					    color.setRGB(255, 0, 0);
 					    var  textMaterial_z = new THREE.MeshBasicMaterial({ color: color });
 					    var  text_z = new THREE.Mesh(textGeo_z , textMaterial_z);
-					    text_z.position.set(400,-240,-300);
+					    text_z.position.set(0,0,200);
 					    text_z.rotation.y=Math.PI;
 					    scene.add(text_z);
 					});
@@ -158,7 +150,7 @@ class ThreeAnim extends Component {
 					    color.setRGB(255, 0, 0);
 					    var  textMaterial_y = new THREE.MeshBasicMaterial({ color: color });
 					    var  text_y = new THREE.Mesh(textGeo_y , textMaterial_y);
-					    text_y.position.set(500,-50,-400);
+					    text_y.position.set(0,200,0);
 					    scene.add(text_y);
 					})
 
@@ -174,7 +166,7 @@ class ThreeAnim extends Component {
 					    color.setRGB(255, 0, 0);
 					    var  textMaterial_x = new THREE.MeshBasicMaterial({ color: color });
 					    var  text_x = new THREE.Mesh(textGeo_x , textMaterial_x);
-					    text_x.position.set(820, -240, -400);
+					    text_x.position.set(200, 0, 0);
 					    scene.add(text_x);
 					})
 
@@ -190,13 +182,12 @@ class ThreeAnim extends Component {
 
 						
 						var single_antiballistic=antiballistic_data[index];
-						//console.log(single_antiballistic,index);
 							//interceptors
 							
 							gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
 								interceptor=gltf.scene;
 								interceptor.scale.set(13,13,13);
-								interceptor.position.set((Number(single_antiballistic.x)*10+540)>1450?1450:(Number(single_antiballistic.x )*10+540),Number(single_antiballistic.y)*10-240,(Number(single_antiballistic.z)*10-320)>600?550:(Number(single_antiballistic.z)*10-380) );
+								interceptor.position.set(Number(single_antiballistic.x)*10,Number(single_antiballistic.y)*10,Number(single_antiballistic.z)*10 );
 								interceptor.rotation.y=Math.PI;
 								scene.add(interceptor);
 							});
@@ -209,18 +200,16 @@ class ThreeAnim extends Component {
 							anti_ball.scale.set(70,70,70);
 							anti_ball.rotation.z=Math.PI;
 							anti_ball.rotation.x=Math.PI;
-							anti_ball.position.set((Number(single_antiballistic.x )*10+540)>1450?1450:(Number(single_antiballistic.x )*10+540),Number(single_antiballistic.y)*10-160,(Number(single_antiballistic.z)*10-320)>600?550:(Number(single_antiballistic.z)*10-380) );
+							anti_ball.position.set(Number(single_antiballistic.x )*10,Number(single_antiballistic.y)*10+80,Number(single_antiballistic.z)*10);
 							anti_ball.rotation.y=Math.PI/2;
 							// interceptor.rotation.x=- Math.PI / 2;
 							scene.add(anti_ball);
-
+							
 							missiles_anti.push(anti_ball);
-
+								
 							index++;
 							place_interceptors(antiballistic_data);
-
-							});
-						
+						});
 					}
 
 					var expo=new GLTFLoader();
@@ -250,14 +239,12 @@ class ThreeAnim extends Component {
 						if (index_ballistic>ballistic_data.length-1) return
 						
 						var single_ballistic=ballistic_data[index_ballistic];
-						console.log(single_ballistic);
 						ballistic.load('models/ballistic_missile/scene.gltf',(gltf)=>{
 						ball=gltf.scene;
 						ball.scale.set(100,100,100);
-						ball.position.set(Number(single_ballistic.x)*10+540,Number(single_ballistic.y)*10-160,Number(single_ballistic.z)*10);
-						ball.rotation.x=single_ballistic.t;
-						ball.rotation.z=Math.PI-single_ballistic.p;
-						//console.log(ball);
+						ball.position.set(Number(single_ballistic.x)*10,Number(single_ballistic.y)*10,Number(single_ballistic.z)*10);
+						ball.rotation.x=Number(single_ballistic.t);
+						ball.rotation.z=Number(single_ballistic.p);
 						// interceptor.rotation.x=- Math.PI / 2;
 						scene.add(ball);
 						index_ballistic++;
@@ -285,7 +272,7 @@ class ThreeAnim extends Component {
 					controls.dampingFactor = 0.05;
 					controls.screenSpacePanning = false;
 					controls.minDistance = 50;
-					controls.maxDistance = 1000;
+					controls.maxDistance = 2500;
 					controls.maxPolarAngle = Math.PI / 2;
 
 					window.addEventListener( 'resize', onWindowResize, false );
@@ -297,9 +284,12 @@ class ThreeAnim extends Component {
 
 					var firstclick=false;
 					window.addEventListener('click',()=>{
+						console.log(missiles_anti);
+
 						if(!firstclick){
 							firstclick=true;
-
+							console.log(missiles_anti);
+							
 							animate_ballistic();
 							animate_antiballistic();
 						}
@@ -319,20 +309,19 @@ class ThreeAnim extends Component {
 					render();
 
 					
-					function animate_ballistic(indexOfballistic) {
-						//console.log(missiles_ballistic,ballistic_data);
+					function animate_ballistic() {
 						requestAnimationFrame(animate_ballistic);
 						var missiles_obj=missiles_ballistic[0];
 						var single_ballistic=ballistic_data[0];
 						
 						
-						if(missiles_obj.position.y>=-240){
+						if(missiles_obj.position.y>=0){
 						time=time+0.01;
-						missiles_obj.position.y+=single_ballistic.V*Math.sin(single_ballistic.t)*time-((gravity*time*time)/2);
-						missiles_obj.position.x+=single_ballistic.V*Math.cos(single_ballistic.t)*Math.cos(single_ballistic.p)*time;
-						missiles_obj.position.z+=single_ballistic.V*Math.cos(single_ballistic.t)*Math.sin(single_ballistic.p)*time;
+						missiles_obj.position.y+=Number(single_ballistic.V)*Math.sin(single_ballistic.t)*time-((gravity*time*time)/2);
+						missiles_obj.position.x+=Number(single_ballistic.V)*Math.cos(single_ballistic.t)*Math.cos(single_ballistic.p)*time;
+						missiles_obj.position.z+=Number(single_ballistic.V)*Math.cos(single_ballistic.t)*Math.sin(single_ballistic.p)*time;
 						missiles_obj.rotation.z-=0.005;
-						//console.log(missiles_obj.position.x,missiles_obj.position.y,missiles_obj.position.z)
+						
 						}
 
 					}
@@ -341,20 +330,21 @@ class ThreeAnim extends Component {
 					var antitime=0;
 					function animate_antiballistic() {
 						requestAnimationFrame(animate_antiballistic);
-						var antimissiles_obj=missiles_anti[2];
-						// console.log(antimissiles_obj);
-						var single_antiballistic=modified_antiballistic[2];
-						//console.log(single_antiballistic);	
+						var antimissiles_obj=missiles_anti[0];
+						var single_antiballistic=modified_antiballistic[0];
+						// console.log(antimissiles_obj, missiles_anti, single_antiballistic, modified_antiballistic);
 
-						//console.log(antimissiles_obj.position.x,antimissiles_obj.position.y,antimissiles_obj.position.z);4
-						//console.log(single_antiballistic.x,single_antiballistic.y,single_antiballistic.z,single_antiballistic.t,single_antiballistic.p);
-						if(antimissiles_obj.position.y>=-240){
-						antitime=antitime+0.01;
-						antimissiles_obj.position.y+=single_antiballistic.V*Math.sin(single_antiballistic.theta)*antitime-((gravity*antitime*antitime)/2);
-						antimissiles_obj.position.x+=single_antiballistic.V*Math.cos(single_antiballistic.theta)*Math.cos(single_antiballistic.phi)*antitime;
-						antimissiles_obj.position.z+=single_antiballistic.V*Math.cos(single_antiballistic.theta)*Math.sin(single_antiballistic.phi)*antitime;
+						if(antimissiles_obj.position.y<=700){
+
+						antitime=antitime+0.06;
+						antimissiles_obj.position.y+=Number(single_antiballistic.V)*Math.sin(single_antiballistic.theta*Math.PI/180)*antitime-((gravity*antitime*antitime)/2);
+						antimissiles_obj.position.x+=Number(single_antiballistic.V)*Math.cos(single_antiballistic.theta)*Math.cos(single_antiballistic.phi)*antitime;
+						antimissiles_obj.position.z+=Number(single_antiballistic.V)*Math.cos(single_antiballistic.theta)*Math.sin(single_antiballistic.phi)*antitime;
 						antimissiles_obj.rotation.z-=0.005;
-						// console.log(antimissiles_obj.position.x,antimissiles_obj.antiposition.y,antimissiles_obj.position.z)
+						console.log(antimissiles_obj.position.y, Number(single_antiballistic.V)*Math.sin(single_antiballistic.theta)*antitime-((gravity*antitime*antitime)/2));
+						console.log(Number(single_antiballistic.V), Math.sin(single_antiballistic.theta*Math.PI/180), single_antiballistic.theta,((gravity*antitime*antitime)/2));
+						// console.log(antimissiles_obj);
+						
 						}
 					}
 
