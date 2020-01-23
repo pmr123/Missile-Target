@@ -49,7 +49,7 @@ class Solution extends Component {
             var points, onerow, onecell;
             var noofrows = Object.keys(arr.dd);
             onerow = noofrows.map((r) => {
-                points = arr.dd[r];
+            points = arr.dd[r];
 
                 if (points.didcollide == false) {
                     console.log("if", points.didcollide);

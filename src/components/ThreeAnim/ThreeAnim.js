@@ -7,664 +7,357 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 class ThreeAnim extends Component {
 
-    // componentDidMount() {
-    //     console.log("Worked");
-    //     var thita, phi;
-    //     var camera, scene, renderer;
-    //     var objects = [];
-    //     scene = new THREE.Scene();
-    //     scene.background = new THREE.Color(0xcce0ff);
-    //     //scene.fog = new THREE.Fog( 0xcce0ff, 500, 10000 );
-    //     // camera
-    //     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-    //     camera.position.set(-1400, 100, -1600);
-    //     // lights
-    //     scene.add(new THREE.AmbientLight(0x666666));
-    //     var light = new THREE.DirectionalLight(0xdfebff, 1);
-    //     light.position.set(50, 200, 100);
-    //     light.position.multiplyScalar(1.3);
-    //     light.castShadow = true;
-    //     light.shadow.mapSize.width = 1024;
-    //     light.shadow.mapSize.height = 1024;
-    //     var d = 300;
-    //     light.shadow.camera.left = - d;
-    //     light.shadow.camera.right = d;
-    //     light.shadow.camera.top = d;
-    //     light.shadow.camera.bottom = - d;
-    //     light.shadow.camera.far = 1000;
-    //     scene.add(light);
-
-    //     var loader = new THREE.TextureLoader();
-
-    //     var groundTexture = loader.load('images/grass.jpg');
-    //     groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
-    //     groundTexture.repeat.set(25, 25);
-    //     groundTexture.anisotropy = 16;
-    //     groundTexture.encoding = THREE.sRGBEncoding;
-    //     var groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
-    //     var mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(10000, 10000), groundMaterial);
-    //     mesh.position.y = - 250;
-    //     mesh.rotation.x = - Math.PI / 2;
-    //     mesh.receiveShadow = true;
-    //     scene.add(mesh);
-    //     objects.push(mesh);
-
-    //     //roll-over
-    //     // var rollOverGeo = new THREE.BoxBufferGeometry( 50, 50, 50 );
-    //     // rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
-    //     // rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
-    //     // scene.add( rollOverMesh );
-
-    //     //100 x 100
-    //     var gridgeo = new THREE.PlaneGeometry(1000, 1000);
-    //     var gridmaterial = new THREE.MeshBasicMaterial({ color: 0x964B00, side: THREE.DoubleSide });
-    //     var gridplane = new THREE.Mesh(gridgeo, gridmaterial);
-    //     gridplane.position.set(1000, -240, 100);
-    //     gridplane.rotation.x = - Math.PI / 2;
-    //     scene.add(gridplane);
-
-    //     //axis lines
-    //     var linegeometry_x = new THREE.Geometry();
-    //     linegeometry_x.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
-    //     linegeometry_x.vertices.push(new THREE.Vector3(820, -240, -400));
-    //     /* linewidth on windows will always be 1 */
-    //     var linematerial_x = new THREE.LineBasicMaterial({ color: 0xffff00, linewidth: 200 });
-    //     var line_x = new THREE.Line(linegeometry_x, linematerial_x);
-    //     scene.add(line_x);
-
-    //     var linegeometry_y = new THREE.Geometry();
-    //     linegeometry_y.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
-    //     linegeometry_y.vertices.push(new THREE.Vector3(500, -50, -400));
-    //     /* linewidth on windows will always be 1 */
-    //     var linematerial_y = new THREE.LineBasicMaterial({ color: 0xffff00, linewidth: 200 });
-    //     var line_y = new THREE.Line(linegeometry_y, linematerial_y);
-    //     scene.add(line_y);
-
-    //     var linegeometry_z = new THREE.Geometry();
-    //     linegeometry_z.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
-    //     linegeometry_z.vertices.push(new THREE.Vector3(500, -240, -300));
-    //     /* linewidth on windows will always be 1 */
-    //     var linematerial_z = new THREE.LineBasicMaterial({ color: 0xffff00, linewidth: 200 });
-    //     var line_z = new THREE.Line(linegeometry_z, linematerial_z);
-    //     scene.add(line_z);
-
-    //     //text
-    //     var fontLoader_z = new THREE.FontLoader();
-    //     fontLoader_z.load("fonts/helvetiker_regular.typeface.json", function (tex) {
-    //         var textGeo_z = new THREE.TextGeometry('Z', {
-    //             size: 40,
-    //             height: 5,
-    //             curveSegments: 6,
-    //             font: tex,
-    //         });
-    //         var color = new THREE.Color();
-    //         color.setRGB(255, 0, 0);
-    //         var textMaterial_z = new THREE.MeshBasicMaterial({ color: color });
-    //         var text_z = new THREE.Mesh(textGeo_z, textMaterial_z);
-    //         text_z.position.set(400, -240, -300)
-    //         scene.add(text_z);
-    //     });
-
-    //     var fontLoader_y = new THREE.FontLoader();
-    //     fontLoader_y.load("fonts/helvetiker_regular.typeface.json", function (tex) {
-    //         var textGeo_y = new THREE.TextGeometry('Y', {
-    //             size: 40,
-    //             height: 5,
-    //             curveSegments: 6,
-    //             font: tex,
-    //         });
-    //         var color = new THREE.Color();
-    //         color.setRGB(255, 0, 0);
-    //         var textMaterial_y = new THREE.MeshBasicMaterial({ color: color });
-    //         var text_y = new THREE.Mesh(textGeo_y, textMaterial_y);
-    //         text_y.position.set(500, -50, -400);
-    //         scene.add(text_y);
-    //     })
-
-    //     var fontLoader_x = new THREE.FontLoader();
-    //     fontLoader_x.load("fonts/helvetiker_regular.typeface.json", function (tex) {
-    //         var textGeo_x = new THREE.TextGeometry('X', {
-    //             size: 40,
-    //             height: 5,
-    //             curveSegments: 6,
-    //             font: tex,
-    //         });
-    //         var color = new THREE.Color();
-    //         color.setRGB(255, 0, 0);
-    //         var textMaterial_x = new THREE.MeshBasicMaterial({ color: color });
-    //         var text_x = new THREE.Mesh(textGeo_x, textMaterial_x);
-    //         text_x.position.set(820, -240, -400);
-    //         scene.add(text_x);
-    //     })
-
-    //     // cubes
-    //     // var cubeGeo = new THREE.PlaneBufferGeometry( 50, 50, 50 );
-    //     // cubeMaterial = new THREE.MeshLambertMaterial( { color: 0xff0000});
-
-    //     // grid
-    //     // var gridHelper = new THREE.GridHelper( 100, 100 );
-    //     // scene.add( gridHelper );
-
-    //     //interceptors
-    //      var gltfloader = new GLTFLoader();
-    //     gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
-    //         var interceptor = gltf.scene;
-    //         interceptor.scale.set(13, 13, 13);
-    //         interceptor.position.set(550, -240, 480);
-    //         interceptor.rotation.y = Math.PI;
-    //         // interceptor.rotation.x=- Math.PI / 2;
-    //         scene.add(interceptor);
-    //     });
-
-    //      gltfloader = new GLTFLoader();
-    //     gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
-    //         var interceptor = gltf.scene;
-    //         interceptor.scale.set(13, 13, 13);
-    //         interceptor.position.set(550, -240, -240);
-    //         // interceptor.rotation.x=- Math.PI / 2;
-    //         interceptor.rotation.y = Math.PI;
-    //         scene.add(interceptor);
-    //     });
-
-    //      gltfloader = new GLTFLoader();
-    //     gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
-    //         var interceptor = gltf.scene;
-    //         interceptor.scale.set(13, 13, 13);
-    //         interceptor.position.set(1420, -240, 480);
-    //         // interceptor.rotation.x=- Math.PI / 2;
-    //         interceptor.rotation.y = Math.PI;
-    //         scene.add(interceptor);
-    //     });
-
-    //      gltfloader = new GLTFLoader();
-    //     gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
-    //         var interceptor = gltf.scene;
-    //         interceptor.scale.set(13, 13, 13);
-    //         interceptor.position.set(1420, -240, -240);
-    //         // interceptor.rotation.x=- Math.PI / 2;
-    //         interceptor.rotation.y = Math.PI;
-    //         scene.add(interceptor);
-
-    //     });
-
-    //     var explosion;
-    //     var expo = new GLTFLoader();
-    //     expo.load('models/blast/scene.gltf', (gltf) => {
-    //         explosion = gltf.scene;
-    //         explosion.visible=false;
-    //         // interceptor.rotation.x=- Math.PI / 2;
-    //         scene.add(explosion);
-    //     });
-    //     // var expo=new THREE.OBJLoader();
-    //     // expo.load('models/explosion/explosion.obj',(obj)=>{
-    //     // 	explosion=obj;
-    //     // 	explosion.visible=false;
-    //     // 	scene.add(explosion);
-    //     // })
-
-    //     var anti_ball, ball;
-
-    //     //anti_ballistic
-    //     var anti_ballistic = new GLTFLoader();
-    //     anti_ballistic.load('models/anti_ballistic/scene.gltf', (gltf) => {
-    //         anti_ball = gltf.scene;
-    //         anti_ball.scale.set(70, 70, 70);
-    //         anti_ball.rotation.y = Math.PI / 2;
-    //         anti_ball.rotation.x = -Math.PI / 4;
-    //         anti_ball.position.set(550, -130, 480);
-    //         // interceptor.rotation.x=- Math.PI / 2;
-    //         scene.add(anti_ball);
-    //     });
-
-    //     var ballistic = new GLTFLoader();
-    //     ballistic.load('models/ballistic_missile/scene.gltf', (gltf) => {
-    //         ball = gltf.scene;
-    //         ball.scale.set(80, 80, 80);
-    //         ball.position.set(550, -180, 2960);
-    //         ball.rotation.x = -Math.PI / 4;
-    //         ball.rotation.z = -Math.PI / 2;
-    //         //console.log(ball);
-    //         // interceptor.rotation.x=- Math.PI / 2;
-    //         scene.add(ball);
-    //     });
-    //     renderer = new THREE.WebGLRenderer({ antialias: true });
-    //     renderer.setPixelRatio(window.devicePixelRatio);
-    //     renderer.setSize(window.innerWidth, window.innerHeight);
-    //     document.body.appendChild(renderer.domElement);
-
-
-    //     var controls = new MapControls(camera, renderer.domElement);
-
-    //     controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-    //     controls.dampingFactor = 0.05;
-    //     controls.screenSpacePanning = false;
-    //     controls.minDistance = 50;
-    //     controls.maxDistance = 1000;
-    //     controls.maxPolarAngle = Math.PI / 2;
-
-    //     window.addEventListener('resize', onWindowResize, false);
-    //     // document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-    //     // document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-
-    //     function onWindowResize() {
-    //         camera.aspect = window.innerWidth / window.innerHeight;
-    //         camera.updateProjectionMatrix();
-    //         renderer.setSize(window.innerWidth, window.innerHeight);
-    //     }
-
-    //     var firstclick = false;
-    //     window.addEventListener('click', () => {
-    //         if (!firstclick) {
-    //             firstclick = true;
-    //             animate();
-    //         }
-    //     });
-
-
-    //     var antiballposx = 550;
-    //     var antiballposy = -130;
-    //     var antiballposz = 480;
-    //     // ball velocity vector:
-    //     var antiball_velocityx = 0;
-    //     var antiball_velocityy = 100;
-    //     var antiball_velocityz = 120;
-    //     // gravity constant:
-    //     const gravity = 9.8;
-
-    //     var ballposx = 550;
-    //     var ballposy = -180;
-    //     var ballposz = 2960;
-    //     // ball velocity vector:
-    //     var ball_velocityx = 0;
-    //     var ball_velocityy = 100;
-    //     var ball_velocityz = -120;
-
-    //     var viewCount = 15;
-    //     var angleofballistic = -1.5 * Math.PI;
-    //     var angleofantiballistic = Math.PI;
-
-    //     function render() {
-    //         requestAnimationFrame(render);
-    //         renderer.render(scene, camera);
-    //         controls.update();
-    //         camera.updateProjectionMatrix();
-    //     }
-    //     render();
-    //     // var pathplotted = false;
-    //     function animate() {
-    //         requestAnimationFrame(animate);
-    //         if (antiballposz <= ballposz && antiballposy != ballposy) {
-    //             antiball_velocityy -= gravity;
-    //             antiballposx += antiball_velocityx;
-    //             antiballposy += antiball_velocityy;
-    //             antiballposz += antiball_velocityz;
-    //             anti_ball.position.x = antiballposx;
-    //             anti_ball.position.y = antiballposy;
-    //             anti_ball.position.z = antiballposz;
-    //             ball_velocityy -= gravity;
-    //             ballposx += ball_velocityx;
-    //             ballposy += ball_velocityy;
-    //             ballposz += ball_velocityz;
-    //             ball.position.x = ballposx;
-    //             ball.position.y = ballposy;
-    //             ball.position.z = ballposz;
-    //             angleofantiballistic -= 0.01;
-    //             angleofballistic -= 0.01;
-    //             anti_ball.rotation.x = angleofantiballistic;
-    //             ball.rotation.x = angleofballistic;
-    //             // var pointGeometry = new THREE.Geometry();
-    //             // var pointloc = new THREE.Vector3(antiballposx,antiballposy,antiballposy);
-    //             // pointGeometry.vertices.push(pointloc);
-    //             // var pointMaterial = new THREE.PointsMaterial( { color: 0xffff00 } );
-    //             // var pointmesh = new THREE.Points( pointGeometry, pointMaterial);
-    //             // pointmesh.scale.set(100,100,100);
-    //             // //console.log(pointmesh);
-    //             // scene.add(pointmesh);
-    //         } else {
-    //             anti_ball.visible = false;
-    //             ball.visible = false;
-    //             explosion.position.set(550, antiballposy, antiballposz);
-    //             // explosion.position.y = antiballposy;
-    //             // explosion.position.z = antiballposz;
-    //             explosion.scale.set(30, 30, 30);
-    //             if (viewCount != 0) {
-    //                 explosion.visible = true;
-    //                 viewCount -= 1;
-    //             } else {
-    //                 explosion.visible = false;
-    //             }
-    //         }
-    //     }
-    // }
-    componentDidMount() {
-        var thita_ballistic, phi_ballistic, thita_antiballistic, phi_antiballistic, time = 0, velocity_ballistic, velocity_antiballistic;
-        var antiballposz, antiballposx, antiballposy, ballposz, ballposx, ballposy;
-        antiballposx = 550;
-        antiballposy = -130;
-        antiballposz = 480;
-        const gravity = 9.8;
-        ballposx = 550;
-        ballposy = -180;
-        ballposz = 2960;
-        velocity_antiballistic = 15;
-        velocity_ballistic = 15;
-        thita_ballistic = Math.PI / 4;
-        phi_ballistic = -Math.PI / 4;
-        thita_antiballistic = Math.PI / 4;
-        phi_antiballistic = Math.PI / 4;
-
-        var antiballistic_data = [{ t: "45", p: "45", x: "550", y: "-240", z: "480", V: "15" },
-        { t: "45", p: "45", x: "550", y: "-240", z: "-240", V: "15" },
-        { t: "45", p: "45", x: "1420", y: "-240", z: "480", V: "15" },
-        { t: "45", p: "45", x: "1420", y: "-240", z: "-240", V: "15" }];
-
-        var camera, scene, renderer;
-        var objects = [];
-        scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xcce0ff);
-        //scene.fog = new THREE.Fog( 0xcce0ff, 500, 10000 );
-
-        // camera
-        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-        camera.position.set(-1400, 100, -1600);
-        // lights
-        scene.add(new THREE.AmbientLight(0x666666));
-        var light = new THREE.DirectionalLight(0xdfebff, 1);
-        light.position.set(50, 200, 100);
-        light.position.multiplyScalar(1.3);
-        light.castShadow = true;
-        light.shadow.mapSize.width = 1024;
-        light.shadow.mapSize.height = 1024;
-        var d = 300;
-        light.shadow.camera.left = - d;
-        light.shadow.camera.right = d;
-        light.shadow.camera.top = d;
-        light.shadow.camera.bottom = - d;
-        light.shadow.camera.far = 1000;
-        scene.add(light);
-
-        var loader = new THREE.TextureLoader();
-
-        var groundTexture = loader.load('images/grass.jpg');
-        groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
-        groundTexture.repeat.set(25, 25);
-        groundTexture.anisotropy = 16;
-        groundTexture.encoding = THREE.sRGBEncoding;
-        var groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
-        var mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(10000, 10000), groundMaterial);
-        mesh.position.y = - 250;
-        mesh.rotation.x = - Math.PI / 2;
-        mesh.receiveShadow = true;
-        scene.add(mesh);
-        objects.push(mesh);
-
-        //roll-over
-        // var rollOverGeo = new THREE.BoxBufferGeometry( 50, 50, 50 );
-        // rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
-        // rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
-        // scene.add( rollOverMesh );
-
-        //100 x 100
-        var gridgeo = new THREE.PlaneGeometry(1000, 1000);
-        var gridmaterial = new THREE.MeshBasicMaterial({ color: 0x964B00, side: THREE.DoubleSide });
-        var gridplane = new THREE.Mesh(gridgeo, gridmaterial);
-        gridplane.position.set(1000, -240, 100);
-        gridplane.rotation.x = - Math.PI / 2;
-        scene.add(gridplane);
-
-        //axis lines
-        var linegeometry_x = new THREE.Geometry();
-        linegeometry_x.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
-        linegeometry_x.vertices.push(new THREE.Vector3(820, -240, -400));
-        /* linewidth on windows will always be 1 */
-        var linematerial_x = new THREE.LineBasicMaterial({ color: 0xffff00, linewidth: 200 });
-        var line_x = new THREE.Line(linegeometry_x, linematerial_x);
-        scene.add(line_x);
-
-        var linegeometry_y = new THREE.Geometry();
-        linegeometry_y.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
-        linegeometry_y.vertices.push(new THREE.Vector3(500, -50, -400));
-        /* linewidth on windows will always be 1 */
-        var linematerial_y = new THREE.LineBasicMaterial({ color: 0xffff00, linewidth: 200 });
-        var line_y = new THREE.Line(linegeometry_y, linematerial_y);
-        scene.add(line_y);
-
-        var linegeometry_z = new THREE.Geometry();
-        linegeometry_z.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
-        linegeometry_z.vertices.push(new THREE.Vector3(500, -240, -300));
-        /* linewidth on windows will always be 1 */
-        var linematerial_z = new THREE.LineBasicMaterial({ color: 0xffff00, linewidth: 200 });
-        var line_z = new THREE.Line(linegeometry_z, linematerial_z);
-        scene.add(line_z);
-
-        //text
-        var fontLoader_z = new THREE.FontLoader();
-        fontLoader_z.load("fonts/helvetiker_regular.typeface.json", function (tex) {
-            var textGeo_z = new THREE.TextGeometry('Z', {
-                size: 40,
-                height: 5,
-                curveSegments: 6,
-                font: tex,
-            });
-            var color = new THREE.Color();
-            color.setRGB(255, 0, 0);
-            var textMaterial_z = new THREE.MeshBasicMaterial({ color: color });
-            var text_z = new THREE.Mesh(textGeo_z, textMaterial_z);
-            text_z.position.set(400, -240, -300);
-            text_z.rotation.y = Math.PI;
-            scene.add(text_z);
-        });
-
-        var fontLoader_y = new THREE.FontLoader();
-        fontLoader_y.load("fonts/helvetiker_regular.typeface.json", function (tex) {
-            var textGeo_y = new THREE.TextGeometry('Y', {
-                size: 40,
-                height: 5,
-                curveSegments: 6,
-                font: tex,
-            });
-            var color = new THREE.Color();
-            color.setRGB(255, 0, 0);
-            var textMaterial_y = new THREE.MeshBasicMaterial({ color: color });
-            var text_y = new THREE.Mesh(textGeo_y, textMaterial_y);
-            text_y.position.set(500, -50, -400);
-            scene.add(text_y);
-        })
-
-        var fontLoader_x = new THREE.FontLoader();
-        fontLoader_x.load("fonts/helvetiker_regular.typeface.json", function (tex) {
-            var textGeo_x = new THREE.TextGeometry('X', {
-                size: 40,
-                height: 5,
-                curveSegments: 6,
-                font: tex,
-            });
-            var color = new THREE.Color();
-            color.setRGB(255, 0, 0);
-            var textMaterial_x = new THREE.MeshBasicMaterial({ color: color });
-            var text_x = new THREE.Mesh(textGeo_x, textMaterial_x);
-            text_x.position.set(820, -240, -400);
-            scene.add(text_x);
-        })
-
-        function place_interceptors(antiballistic_data) {
-
-
-            for (var i = 0; i < antiballistic_data.length; i++) {
-
-
-
-                //interceptors
-                var gltfloader = new GLTFLoader();
-                gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
-                    var interceptor = gltf.scene;
-                    interceptor.scale.set(13, 13, 13);
-                    interceptor.position.set(Number(antiballistic_data[i].x), Number(antiballistic_data[i].y), Number(antiballistic_data[i].x));
-                    interceptor.rotation.y = Math.PI;
-                    scene.add(interceptor);
-                });
-
-                //anti_ballistic
-                var anti_ballistic = new GLTFLoader();
-                anti_ballistic.load('models/anti_ballistic/scene.gltf', (gltf) => {
-                    anti_ball = gltf.scene;
-                    anti_ball.scale.set(70, 70, 70);
-                    anti_ball.rotation.z = phi_antiballistic;
-                    anti_ball.rotation.x = Math.PI - thita_antiballistic;
-                    anti_ball.position.set(Number(antiballistic_data[i].x), Number(antiballistic_data[i].y), Number(antiballistic_data[i].x));
-                    // interceptor.rotation.x=- Math.PI / 2;
-                    scene.add(anti_ball);
-                });
-            }
-        }
-
-        //					interceptors
-        var gltfloader = new GLTFLoader();
-        gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
-            var interceptor = gltf.scene;
-            interceptor.scale.set(13, 13, 13);
-            interceptor.position.set(550, -240, 480);
-            interceptor.rotation.y = Math.PI;
-            // interceptor.rotation.x=- Math.PI / 2;
-            scene.add(interceptor);
-        });
-
-        var gltfloader = new GLTFLoader();
-        gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
-            var interceptor = gltf.scene;
-            interceptor.scale.set(13, 13, 13);
-            interceptor.position.set(550, -240, -240);
-            // interceptor.rotation.x=- Math.PI / 2;
-            interceptor.rotation.y = Math.PI;
-            scene.add(interceptor);
-        });
-
-        var gltfloader = new GLTFLoader();
-        gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
-            var interceptor = gltf.scene;
-            interceptor.scale.set(13, 13, 13);
-            interceptor.position.set(1420, -240, 480);
-            // interceptor.rotation.x=- Math.PI / 2;
-            interceptor.rotation.y = Math.PI;
-            scene.add(interceptor);
-        });
-
-        var gltfloader = new GLTFLoader();
-        gltfloader.load('models/interceptor/scene.gltf', (gltf) => {
-            var interceptor = gltf.scene;
-            interceptor.scale.set(13, 13, 13);
-            interceptor.position.set(1420, -240, -240);
-            // interceptor.rotation.x=- Math.PI / 2;
-            interceptor.rotation.y = Math.PI;
-            scene.add(interceptor);
-        });
-
-        var expo = new GLTFLoader();
-        expo.load('models/blast/scene.gltf', (gltf) => {
-            expo = gltf.scene;
-            //expo.scale.set(0,0,0);
-            expo.visible = false;
-            // interceptor.rotation.x=- Math.PI / 2;
-            scene.add(expo);
-        });
-
-        var anti_ball, ball;
-
-        //anti_ballistic
-        var anti_ballistic = new GLTFLoader();
-        anti_ballistic.load('models/anti_ballistic/scene.gltf', (gltf) => {
-            anti_ball = gltf.scene;
-            anti_ball.scale.set(70, 70, 70);
-            anti_ball.rotation.z = phi_antiballistic;
-            anti_ball.rotation.x = Math.PI - thita_antiballistic;
-            anti_ball.position.set(550, -130, 480);
-            // interceptor.rotation.x=- Math.PI / 2;
-            scene.add(anti_ball);
-        });
-
-        var ballistic = new GLTFLoader();
-        ballistic.load('models/ballistic_missile/scene.gltf', (gltf) => {
-            ball = gltf.scene;
-            ball.scale.set(100, 100, 100);
-            ball.position.set(550, -180, 2960);
-            ball.rotation.x = thita_ballistic;
-            ball.rotation.z = Math.PI - phi_ballistic;
-            //console.log(ball);
-            // interceptor.rotation.x=- Math.PI / 2;
-            scene.add(ball);
-        });
-
-
-
-        renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-
-        // var controls = new THREE.OrbitControls( camera, renderer.domElement );
-        // controls.maxPolarAngle = Math.PI * 0.5;
-        // controls.minDistance = 1000;
-        // controls.maxDistance = 50000;
-
-        var controls = new MapControls(camera, renderer.domElement);
-
-        controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-        controls.dampingFactor = 0.05;
-        controls.screenSpacePanning = false;
-        controls.minDistance = 50;
-        controls.maxDistance = 1000;
-        controls.maxPolarAngle = Math.PI / 2;
-
-        window.addEventListener('resize', onWindowResize, false);
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        var firstclick = false;
-        window.addEventListener('click', () => {
-            if (!firstclick) {
-                firstclick = true;
-                animate();
-            }
-        });
-
-
-
-
-
-        function render() {
-            requestAnimationFrame(render);
-            renderer.render(scene, camera);
-            controls.update();
-            camera.updateProjectionMatrix();
-        }
-
-        render();
-
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            var data = antiballistic_data[0]
-            // console.log(data.t);
-
-            if (ball.position.y >= -240) {
-                time = time + 0.01;
-                ball.position.y += velocity_ballistic * Math.sin(thita_ballistic) * time - ((gravity * time * time) / 2);
-                ball.position.x += velocity_ballistic * Math.cos(thita_ballistic) * Math.cos(phi_ballistic) * time;
-                ball.position.z += velocity_ballistic * Math.cos(thita_ballistic) * Math.sin(phi_ballistic) * time;
-                ball.rotation.z -= 0.005;
-
-                anti_ball.position.y += velocity_antiballistic * Math.sin(thita_antiballistic) * time - ((gravity * time * time) / 2);
-                anti_ball.position.x += velocity_antiballistic * Math.cos(thita_antiballistic) * Math.cos(phi_antiballistic) * time;
-                anti_ball.position.z += velocity_antiballistic * Math.cos(thita_antiballistic) * Math.sin(phi_antiballistic) * time;
-                anti_ball.rotation.x -= 0.005;
-
-            }
-
-        }
+   constructor(props){
+       super(props);
+    //    this.props = props.hehe;
+    //    console.log(this.props);   
+   }
+    componentDidMount(){
+            
+			var time=0;
+			var missiles_anti=[];
+			var missiles_ballistic=[];
+						
+			const gravity = 9.8;
+			console.log(this.props.hehe);
+            
+			var findin_data=this.props.hehe.dd;
+			var antiballistic_data=this.props.hehe.ival; 
+            var ballistic_data=this.props.hehe.mval;
+            // console.log(findin_data, antiballistic_data, ballistic_data);
+			var fetch_theta,fetch_phi;
+			var modified_antiballistic={};
+			var tempobj={};
+			
+            var i,j;
+			// alert(antiballistic_data);
+			var antiballength =  Object.keys(antiballistic_data).length;
+			var findinlength =  Object.keys(findin_data).length;
+
+			
+			for (i = 0; i < antiballength; i++) {
+				for (j = 0; j < findinlength; j++) {
+					
+					if (Number(findin_data[j].interceptor)==i ) {													
+							fetch_theta=findin_data[j].theta;
+							fetch_phi=findin_data[j].phi;
+							modified_antiballistic[findin_data[j].interceptor] = {theta : fetch_theta,phi: fetch_phi,x: antiballistic_data[i].x, y:antiballistic_data[i].y,z:antiballistic_data[i].z,V:antiballistic_data[i].V};
+						}
+						
+
+				}
+				
+			}
+			console.log(findin_data, modified_antiballistic);
+
+			var camera, scene, renderer;
+			
+			scene = new THREE.Scene();
+					scene.background = new THREE.Color( 0xcce0ff );
+					//scene.fog = new THREE.Fog( 0xcce0ff, 500, 10000 );
+					// camera
+					camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
+					camera.position.set( -1400, 100, -1600 );
+					// lights
+					scene.add( new THREE.AmbientLight( 0x666666 ) );
+					var light = new THREE.DirectionalLight( 0xdfebff, 1 );
+					light.position.set( 50, 200, 100 );
+					light.position.multiplyScalar( 1.3 );
+					light.castShadow = true;
+					light.shadow.mapSize.width = 1024;
+					light.shadow.mapSize.height = 1024;
+					var d = 300;
+					light.shadow.camera.left = - d;
+					light.shadow.camera.right = d;
+					light.shadow.camera.top = d;
+					light.shadow.camera.bottom = - d;
+					light.shadow.camera.far = 1000;
+					scene.add( light );
+
+					var loader = new THREE.TextureLoader();
+
+					var groundTexture = loader.load( 'images/grass.jpg' );
+					groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+					groundTexture.repeat.set( 25, 25 );
+					groundTexture.anisotropy = 16;
+					groundTexture.encoding = THREE.sRGBEncoding;
+					var groundMaterial = new THREE.MeshLambertMaterial( { map: groundTexture } );
+					var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 10000, 10000 ), groundMaterial );
+					mesh.position.y = - 250;
+					mesh.rotation.x = - Math.PI / 2;
+					mesh.receiveShadow = true;
+					scene.add( mesh );
+					// objects.push( mesh );
+
+					//roll-over
+					// var rollOverGeo = new THREE.BoxBufferGeometry( 50, 50, 50 );
+					// rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
+					// rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
+					// scene.add( rollOverMesh );
+
+					//100 x 100
+					var gridgeo = new THREE.PlaneGeometry(1000,1000);
+					var gridmaterial = new THREE.MeshBasicMaterial( {color: 0x964B00, side: THREE.DoubleSide} );
+					var gridplane = new THREE.Mesh( gridgeo, gridmaterial );
+					gridplane.position.set(1000,-240,100);
+					gridplane.rotation.x=- Math.PI / 2;
+					scene.add( gridplane );
+
+					//axis lines
+					var linegeometry_x = new THREE.Geometry();
+					linegeometry_x.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
+					linegeometry_x.vertices.push(new THREE.Vector3(820, -240, -400));
+					/* linewidth on windows will always be 1 */
+					var linematerial_x = new THREE.LineBasicMaterial( { color: 0xffff00, linewidth: 200 } );
+					var line_x = new THREE.Line(linegeometry_x, linematerial_x);
+					scene.add(line_x);
+
+					var linegeometry_y = new THREE.Geometry();
+					linegeometry_y.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
+					linegeometry_y.vertices.push(new THREE.Vector3(500, -50, -400));
+					/* linewidth on windows will always be 1 */
+					var linematerial_y = new THREE.LineBasicMaterial( { color: 0xffff00, linewidth: 200 } );
+					var line_y = new THREE.Line(linegeometry_y, linematerial_y);
+					scene.add(line_y);
+
+					var linegeometry_z = new THREE.Geometry();
+					linegeometry_z.vertices.push(new THREE.Vector3(500, -240, -400)); //x, y, z
+					linegeometry_z.vertices.push(new THREE.Vector3(500, -240, -300));
+					/* linewidth on windows will always be 1 */
+					var linematerial_z = new THREE.LineBasicMaterial( { color: 0xffff00, linewidth: 200 } );
+					var line_z = new THREE.Line(linegeometry_z, linematerial_z);
+					scene.add(line_z);
+
+					//text
+					var fontLoader_z = new THREE.FontLoader();
+					fontLoader_z.load("fonts/helvetiker_regular.typeface.json",function(tex){ 
+					    var  textGeo_z = new THREE.TextGeometry('Z', {
+					            size: 40,
+					            height: 5,
+					            curveSegments: 6,
+					            font: tex,
+					    });
+					    var  color = new THREE.Color();
+					    color.setRGB(255, 0, 0);
+					    var  textMaterial_z = new THREE.MeshBasicMaterial({ color: color });
+					    var  text_z = new THREE.Mesh(textGeo_z , textMaterial_z);
+					    text_z.position.set(400,-240,-300);
+					    text_z.rotation.y=Math.PI;
+					    scene.add(text_z);
+					});
+
+					var fontLoader_y = new THREE.FontLoader();
+					fontLoader_y.load("fonts/helvetiker_regular.typeface.json",function(tex){ 
+					    var  textGeo_y = new THREE.TextGeometry('Y', {
+					            size: 40,
+					            height: 5,
+					            curveSegments: 6,
+					            font: tex,
+					    });
+					    var  color = new THREE.Color();
+					    color.setRGB(255, 0, 0);
+					    var  textMaterial_y = new THREE.MeshBasicMaterial({ color: color });
+					    var  text_y = new THREE.Mesh(textGeo_y , textMaterial_y);
+					    text_y.position.set(500,-50,-400);
+					    scene.add(text_y);
+					})
+
+					var fontLoader_x = new THREE.FontLoader();
+					fontLoader_x.load("fonts/helvetiker_regular.typeface.json",function(tex){ 
+					    var  textGeo_x = new THREE.TextGeometry('X', {
+					            size: 40,
+					            height: 5,
+					            curveSegments: 6,
+					            font: tex,
+					    });
+					    var  color = new THREE.Color();
+					    color.setRGB(255, 0, 0);
+					    var  textMaterial_x = new THREE.MeshBasicMaterial({ color: color });
+					    var  text_x = new THREE.Mesh(textGeo_x , textMaterial_x);
+					    text_x.position.set(820, -240, -400);
+					    scene.add(text_x);
+					})
+
+					var index=0;
+					var gltfloader = new GLTFLoader();
+					var anti_ballistic=new GLTFLoader();
+					var anti_ball,interceptor;
+
+					function place_interceptors(antiballistic_data) {
+						console.log(antiballistic_data);
+						
+						if(index>antiballistic_data.length-1) return 
+
+						
+						var single_antiballistic=antiballistic_data[index];
+						//console.log(single_antiballistic,index);
+							//interceptors
+							
+							gltfloader.load('models/interceptor/scene.gltf',(gltf)=>{
+								interceptor=gltf.scene;
+								interceptor.scale.set(13,13,13);
+								interceptor.position.set((Number(single_antiballistic.x)*10+540)>1450?1450:(Number(single_antiballistic.x )*10+540),Number(single_antiballistic.y)*10-240,(Number(single_antiballistic.z)*10-320)>600?550:(Number(single_antiballistic.z)*10-380) );
+								interceptor.rotation.y=Math.PI;
+								scene.add(interceptor);
+							});
+
+							//anti_ballistic
+							
+							
+							anti_ballistic.load('models/anti_ballistic/scene.gltf',(gltf)=>{
+							anti_ball=gltf.scene;
+							anti_ball.scale.set(70,70,70);
+							anti_ball.rotation.z=Math.PI;
+							anti_ball.rotation.x=Math.PI;
+							anti_ball.position.set((Number(single_antiballistic.x )*10+540)>1450?1450:(Number(single_antiballistic.x )*10+540),Number(single_antiballistic.y)*10-160,(Number(single_antiballistic.z)*10-320)>600?550:(Number(single_antiballistic.z)*10-380) );
+							anti_ball.rotation.y=Math.PI/2;
+							// interceptor.rotation.x=- Math.PI / 2;
+							scene.add(anti_ball);
+
+							missiles_anti.push(anti_ball);
+
+							index++;
+							place_interceptors(antiballistic_data);
+
+							});
+						
+					}
+
+					var expo=new GLTFLoader();
+					expo.load('models/blast/scene.gltf',(gltf)=>{
+						expo=gltf.scene;
+						//expo.scale.set(0,0,0);
+						// interceptor.rotation.x=- Math.PI / 2;
+						expo.visible=false;
+						scene.add(expo);
+					});
+
+					var ball,index_ballistic=0;
+
+					//anti_ballistic
+					// var anti_ballistic=new GLTFLoader();
+					// anti_ballistic.load('models/anti_ballistic/scene.gltf',(gltf)=>{
+					// 	anti_ball=gltf.scene;
+					// 	anti_ball.scale.set(70,70,70);
+					// 	anti_ball.rotation.z=phi_antiballistic;
+					// 	anti_ball.rotation.x=Math.PI-thita_antiballistic;
+					// 	anti_ball.position.set(550,-130,480);
+					// 	// interceptor.rotation.x=- Math.PI / 2;
+					// 	scene.add(anti_ball);
+					// });
+					var ballistic=new GLTFLoader();
+					function place_ballistic(ballistic_data) {
+						if (index_ballistic>ballistic_data.length-1) return
+						
+						var single_ballistic=ballistic_data[index_ballistic];
+						console.log(single_ballistic);
+						ballistic.load('models/ballistic_missile/scene.gltf',(gltf)=>{
+						ball=gltf.scene;
+						ball.scale.set(100,100,100);
+						ball.position.set(Number(single_ballistic.x)*10+540,Number(single_ballistic.y)*10-160,Number(single_ballistic.z)*10);
+						ball.rotation.x=single_ballistic.t;
+						ball.rotation.z=Math.PI-single_ballistic.p;
+						//console.log(ball);
+						// interceptor.rotation.x=- Math.PI / 2;
+						scene.add(ball);
+						index_ballistic++;
+						missiles_ballistic.push(ball);
+						place_ballistic(ballistic_data);
+					});	
+					}
+
+					place_interceptors(antiballistic_data);
+					place_ballistic(ballistic_data);
+
+					renderer = new THREE.WebGLRenderer( { antialias: true } );
+					renderer.setPixelRatio( window.devicePixelRatio );
+					renderer.setSize( window.innerWidth, window.innerHeight );
+					document.body.appendChild(renderer.domElement);
+
+					// var controls = new THREE.OrbitControls( camera, renderer.domElement );
+					// controls.maxPolarAngle = Math.PI * 0.5;
+					// controls.minDistance = 1000;
+					// controls.maxDistance = 50000;
+
+					var controls = new MapControls( camera, renderer.domElement );
+					
+					controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+					controls.dampingFactor = 0.05;
+					controls.screenSpacePanning = false;
+					controls.minDistance = 50;
+					controls.maxDistance = 1000;
+					controls.maxPolarAngle = Math.PI / 2;
+
+					window.addEventListener( 'resize', onWindowResize, false );
+					function onWindowResize() {
+					camera.aspect = window.innerWidth / window.innerHeight;
+					camera.updateProjectionMatrix();
+					renderer.setSize( window.innerWidth, window.innerHeight );
+					}
+
+					var firstclick=false;
+					window.addEventListener('click',()=>{
+						if(!firstclick){
+							firstclick=true;
+
+							animate_ballistic();
+							animate_antiballistic();
+						}
+					});
+					
+
+        			
+				
+
+					function render() {
+					requestAnimationFrame(render);
+					renderer.render( scene, camera );
+					controls.update();
+					camera.updateProjectionMatrix();						
+					}
+
+					render();
+
+					
+					function animate_ballistic(indexOfballistic) {
+						//console.log(missiles_ballistic,ballistic_data);
+						requestAnimationFrame(animate_ballistic);
+						var missiles_obj=missiles_ballistic[0];
+						var single_ballistic=ballistic_data[0];
+						
+						
+						if(missiles_obj.position.y>=-240){
+						time=time+0.01;
+						missiles_obj.position.y+=single_ballistic.V*Math.sin(single_ballistic.t)*time-((gravity*time*time)/2);
+						missiles_obj.position.x+=single_ballistic.V*Math.cos(single_ballistic.t)*Math.cos(single_ballistic.p)*time;
+						missiles_obj.position.z+=single_ballistic.V*Math.cos(single_ballistic.t)*Math.sin(single_ballistic.p)*time;
+						missiles_obj.rotation.z-=0.005;
+						//console.log(missiles_obj.position.x,missiles_obj.position.y,missiles_obj.position.z)
+						}
+
+					}
+
+					// alphatime=0.1;
+					var antitime=0;
+					function animate_antiballistic() {
+						requestAnimationFrame(animate_antiballistic);
+						var antimissiles_obj=missiles_anti[2];
+						// console.log(antimissiles_obj);
+						var single_antiballistic=modified_antiballistic[2];
+						//console.log(single_antiballistic);	
+
+						//console.log(antimissiles_obj.position.x,antimissiles_obj.position.y,antimissiles_obj.position.z);4
+						//console.log(single_antiballistic.x,single_antiballistic.y,single_antiballistic.z,single_antiballistic.t,single_antiballistic.p);
+						if(antimissiles_obj.position.y>=-240){
+						antitime=antitime+0.01;
+						antimissiles_obj.position.y+=single_antiballistic.V*Math.sin(single_antiballistic.theta)*antitime-((gravity*antitime*antitime)/2);
+						antimissiles_obj.position.x+=single_antiballistic.V*Math.cos(single_antiballistic.theta)*Math.cos(single_antiballistic.phi)*antitime;
+						antimissiles_obj.position.z+=single_antiballistic.V*Math.cos(single_antiballistic.theta)*Math.sin(single_antiballistic.phi)*antitime;
+						antimissiles_obj.rotation.z-=0.005;
+						// console.log(antimissiles_obj.position.x,antimissiles_obj.antiposition.y,antimissiles_obj.position.z)
+						}
+					}
+
     }
     render() {
         return (
