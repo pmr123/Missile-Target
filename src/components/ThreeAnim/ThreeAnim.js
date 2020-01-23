@@ -284,11 +284,9 @@ class ThreeAnim extends Component {
 
 					var firstclick=false;
 					window.addEventListener('click',()=>{
-						console.log(missiles_anti);
 
 						if(!firstclick){
 							firstclick=true;
-							console.log(missiles_anti);
 							
 							animate_ballistic();
 							animate_antiballistic();
@@ -317,9 +315,9 @@ class ThreeAnim extends Component {
 						
 						if(missiles_obj.position.y>=0){
 						time=time+0.01;
-						missiles_obj.position.y+=Number(single_ballistic.V)*Math.sin(single_ballistic.t)*time-((gravity*time*time)/2);
-						missiles_obj.position.x+=Number(single_ballistic.V)*Math.cos(single_ballistic.t)*Math.cos(single_ballistic.p)*time;
-						missiles_obj.position.z+=Number(single_ballistic.V)*Math.cos(single_ballistic.t)*Math.sin(single_ballistic.p)*time;
+						missiles_obj.position.y+=Number(single_ballistic.V)*Math.sin(single_ballistic.t*Math.PI/180)*time-((gravity*time*time)/2);
+						missiles_obj.position.x+=Number(single_ballistic.V)*Math.cos(single_ballistic.t*Math.PI/180)*Math.cos(single_ballistic.p*Math.PI/180)*time;
+						missiles_obj.position.z+=Number(single_ballistic.V)*Math.cos(single_ballistic.t*Math.PI/180)*Math.sin(single_ballistic.p*Math.PI/180)*time;
 						missiles_obj.rotation.z-=0.005;
 						
 						}
@@ -338,12 +336,12 @@ class ThreeAnim extends Component {
 
 						antitime=antitime+0.06;
 						antimissiles_obj.position.y+=Number(single_antiballistic.V)*Math.sin(single_antiballistic.theta*Math.PI/180)*antitime-((gravity*antitime*antitime)/2);
-						antimissiles_obj.position.x+=Number(single_antiballistic.V)*Math.cos(single_antiballistic.theta)*Math.cos(single_antiballistic.phi)*antitime;
-						antimissiles_obj.position.z+=Number(single_antiballistic.V)*Math.cos(single_antiballistic.theta)*Math.sin(single_antiballistic.phi)*antitime;
+						antimissiles_obj.position.x+=Number(single_antiballistic.V)*Math.cos(single_antiballistic.theta*Math.PI/180)*Math.cos(single_antiballistic.phi*Math.PI/180)*antitime;
+						antimissiles_obj.position.z+=Number(single_antiballistic.V)*Math.cos(single_antiballistic.theta*Math.PI/180)*Math.sin(single_antiballistic.phi*Math.PI/180)*antitime;
 						antimissiles_obj.rotation.z-=0.005;
-						console.log(antimissiles_obj.position.y, Number(single_antiballistic.V)*Math.sin(single_antiballistic.theta)*antitime-((gravity*antitime*antitime)/2));
-						console.log(Number(single_antiballistic.V), Math.sin(single_antiballistic.theta*Math.PI/180), single_antiballistic.theta,((gravity*antitime*antitime)/2));
-						// console.log(antimissiles_obj);
+						// console.log(antimissiles_obj.position.y, Number(single_antiballistic.V)*Math.sin(single_antiballistic.theta)*antitime-((gravity*antitime*antitime)/2));
+						// console.log(Number(single_antiballistic.V), Math.sin(single_antiballistic.theta*Math.PI/180), single_antiballistic.theta,((gravity*antitime*antitime)/2));
+						//  console.log(antimissiles_obj);
 						
 						}
 					}
