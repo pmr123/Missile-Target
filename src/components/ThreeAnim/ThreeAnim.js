@@ -216,7 +216,7 @@ class ThreeAnim extends Component {
 		var expo = new GLTFLoader();
 		expo.load('models/blast/scene.gltf', (gltf) => {
 			expo = gltf.scene;
-			//expo.scale.set(0,0,0);
+			expo.scale.set(10,10,10);
 			// interceptor.rotation.x=- Math.PI / 2;
 			expo.visible = false;
 			scene.add(expo);
@@ -224,17 +224,6 @@ class ThreeAnim extends Component {
 
 		var ball, index_ballistic = 0;
 
-		//anti_ballistic
-		// var anti_ballistic=new GLTFLoader();
-		// anti_ballistic.load('models/anti_ballistic/scene.gltf',(gltf)=>{
-		// 	anti_ball=gltf.scene;
-		// 	anti_ball.scale.set(70,70,70);
-		// 	anti_ball.rotation.z=phi_antiballistic;
-		// 	anti_ball.rotation.x=Math.PI-thita_antiballistic;
-		// 	anti_ball.position.set(550,-130,480);
-		// 	// interceptor.rotation.x=- Math.PI / 2;
-		// 	scene.add(anti_ball);
-		// });
 		var ballistic = new GLTFLoader();
 		function place_ballistic(ballistic_data) {
 			if (index_ballistic > ballistic_data.length - 1) return
@@ -306,7 +295,7 @@ class ThreeAnim extends Component {
 		}
 
 		render();
-
+		var visibleTime=0;
 
 		function animate_ballistic() {
 			requestAnimationFrame(animate_ballistic);
@@ -330,25 +319,17 @@ class ThreeAnim extends Component {
 				antimissiles_obj.rotation.z -= 0.005;
 				console.log(missiles_obj.position, antimissiles_obj.position);
 				
+			}else{
+				missiles_obj.visible=false;
+				antimissiles_obj.visible=false;
+				expo.position.set(antimissiles_obj.position.x,antimissiles_obj.position.y,antimissiles_obj.position.z)
+				if(visibleTime!=30){
+					visibleTime+=1;
+					expo.visible=true;
+				}else{
+					expo.visible=false;
+				}
 			}
-
-
-			// requestAnimationFrame(animate_antiballistic);
-			
-			// console.log(antimissiles_obj, missiles_anti, single_antiballistic, modified_antiballistic);
-
-			// if (antimissiles_obj.position.y >= 0) {
-
-			// 	antitime = antitime + 0.01;
-			// 	antimissiles_obj.position.y += Number(single_antiballistic.V) * Math.sin(single_antiballistic.theta * Math.PI / 180) * antitime - ((gravity * antitime * antitime) / 2);
-			// 	antimissiles_obj.position.x += Number(single_antiballistic.V) * Math.cos(single_antiballistic.theta * Math.PI / 180) * Math.cos(single_antiballistic.phi * Math.PI / 180) * antitime;
-			// 	antimissiles_obj.position.z += Number(single_antiballistic.V) * Math.cos(single_antiballistic.theta * Math.PI / 180) * Math.sin(single_antiballistic.phi * Math.PI / 180) * antitime;
-			// 	antimissiles_obj.rotation.z -= 0.005;
-			// 	// console.log(antimissiles_obj.position.y, Number(single_antiballistic.V)*Math.sin(single_antiballistic.theta)*antitime-((gravity*antitime*antitime)/2));
-			// 	// console.log(Number(single_antiballistic.V), Math.sin(single_antiballistic.theta*Math.PI/180), single_antiballistic.theta,((gravity*antitime*antitime)/2));
-			// 	//  console.log(antimissiles_obj);
-
-			// }
 
 
 		}
