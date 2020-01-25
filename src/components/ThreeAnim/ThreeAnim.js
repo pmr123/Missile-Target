@@ -202,8 +202,8 @@ class ThreeAnim extends Component {
 				anti_ball.rotation.z = Math.PI;
 				anti_ball.rotation.x = Math.PI;
 				anti_ball.position.set(Number(single_antiballistic.x)*10, Number(single_antiballistic.y)*10, Number(single_antiballistic.z)*10);
-				anti_ball.rotation.y = Math.PI / 2;
-				// interceptor.rotation.x=- Math.PI / 2;
+				//anti_ball.rotation.y = Math.PI / 2;
+				interceptor.rotation.x=- Math.PI / 2;
 				scene.add(anti_ball);
 
 				missiles_anti.push(anti_ball);
@@ -310,13 +310,13 @@ class ThreeAnim extends Component {
 				missiles_obj.position.y = (Number(single_ballistic.y) + Number(single_ballistic.V) * Math.sin(single_ballistic.t * Math.PI / 180) * time - ((gravity * time * time) / 2))*10;
 				missiles_obj.position.x = (Number(single_ballistic.x) + Number(single_ballistic.V) * Math.cos(single_ballistic.t * Math.PI / 180) * Math.cos(single_ballistic.p * Math.PI / 180) * time)*10;
 				missiles_obj.position.z = (Number(single_ballistic.z) + Number(single_ballistic.V) * Math.cos(single_ballistic.t * Math.PI / 180) * Math.sin(single_ballistic.p * Math.PI / 180) * time)*10;
-				missiles_obj.rotation.z -= 0.005;
+				missiles_obj.rotation.y -= 0.005;
 
 				antitime = antitime + 0.01;
 				antimissiles_obj.position.y = (Number(single_antiballistic.V) * Math.sin(single_antiballistic.theta * Math.PI / 180) * antitime - ((gravity * antitime * antitime) / 2))*10;
 				antimissiles_obj.position.x = (Number(single_antiballistic.x)+Number(single_antiballistic.V) * Math.cos(single_antiballistic.theta * Math.PI / 180) * Math.cos(single_antiballistic.phi * Math.PI / 180) * antitime)*10;
 				antimissiles_obj.position.z = (Number(single_antiballistic.z)+Number(single_antiballistic.V) * Math.cos(single_antiballistic.theta * Math.PI / 180) * Math.sin(single_antiballistic.phi * Math.PI / 180) * antitime)*10;
-				antimissiles_obj.rotation.z -= 0.005;
+				antimissiles_obj.rotation.y -= 0.005;
 				console.log(missiles_obj.position, antimissiles_obj.position);
 				
 			}else{
